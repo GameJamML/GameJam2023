@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Soul
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -12,8 +13,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Trail
+  - Minimap
   - 
   - 
   - 
@@ -41,4 +42,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Radar
+    uniqueID: 686684073
+    locked: 0
+  - name: Trail
+    uniqueID: 1166749605
     locked: 0
