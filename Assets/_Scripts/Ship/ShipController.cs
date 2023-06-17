@@ -10,10 +10,6 @@ public class ShipController : MonoBehaviour
     [Header("Ship Rotation")]
     [SerializeField, Range(-1, 1)] private float _rotateInput = 0.0f;
     [SerializeField] private float rotationSpeed = 5f;
-    [SerializeField] private float stopThreshold = 0.1f;
-
-    [SerializeField]
-    private Quaternion targetRotation;
 
     private Rigidbody _rb;
 
