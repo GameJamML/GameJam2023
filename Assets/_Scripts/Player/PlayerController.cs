@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rigidbody;
 
     public float speed = 1.0f;
+
+    private bool canInteract = true;
+
     void Start()
     {
         // Assume there is only 1 camera in the scene
@@ -22,6 +25,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!canInteract)
+            return;
+
         direction = new Vector3(0, 0, 0);
 
         direction.x = Input.GetAxis("Horizontal");
@@ -51,6 +57,25 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!canInteract)
+            return;
+
         rigidbody.velocity = velocity * speed;
+    }
+
+    public void StopInteraction()
+    {
+        canInteract = false;
+        velocity = new Vector3(0, 0, 0);
+    }
+
+    public void ResumeInteraction()
+    {
+        canInteract = true;
+    }
+
+    public bool CanInteract()
+    {
+        return canInteract;
     }
 }

@@ -4,10 +4,38 @@ using UnityEngine;
 
 public class InteractableFlag : ShipInteractable
 {
-    private bool isOpen = false;
+    public FlagController flagController;
+    private void Update()
+    {
+        if (!isPlayerOn)
+            return;
+        if (Input.GetKeyDown(KeyCode.E) && player.CanInteract())
+        {
+            PlayerInteraction();
+            return;
+        }
+
+        if (!isOpen)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PlayerLeave();
+            return;
+        }
+    }
 
     public override void PlayerInteraction()
     {
-        Debug.Log("InteractableFlag!");
+        player.StopInteraction();
+        isOpen = true;
+        flagController.enabled = true;
+    }
+
+    public override void PlayerLeave()
+    {
+        isOpen = false;
+        player.ResumeInteraction();
+        flagController.enabled = false;
     }
 }

@@ -5,22 +5,21 @@ using UnityEngine;
 public class ShipInteractable : MonoBehaviour
 {
 
-    private bool isPlayerOn = false;
-
+    protected bool isPlayerOn = false;
+    protected PlayerController player;
+    protected bool isOpen = false;
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerController>();
+    }
+    
     private void Update()
     {
-        if (!isPlayerOn)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            PlayerInteraction();
-        }
+        
     }
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Stay");
         if (other.CompareTag("Player"))
         {
             isPlayerOn = true;
@@ -29,16 +28,19 @@ public class ShipInteractable : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Stay");
         if (other.CompareTag("Player"))
         {
             isPlayerOn = false;
+            if (isOpen)
+                PlayerLeave(); // For Security reasons. Makes sure the interface closes if somehow you move out the trigger.
         }
     }
 
     public virtual void PlayerInteraction()
     {
-        // Interaciton for player
-        Debug.Log("Default");
+    }
+
+    public virtual void PlayerLeave()
+    {
     }
 }
