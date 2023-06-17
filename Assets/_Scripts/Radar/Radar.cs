@@ -11,10 +11,12 @@ public class Radar : MonoBehaviour
     [Range(-720, 720)]
     [SerializeField] int angularSpeed;
     [SerializeField] int radarDistance;
+    [SerializeField] int pingInterval = 5;
     [SerializeField] GameObject Ship;
     [SerializeField] GameObject radarPingPrefab;
-    private List<Collider> colliders;
-    private float colliderTimer;
+    private GameObject[] radarPings;
+    private int currentRadarPing;
+    private int limitPings = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,15 +24,22 @@ public class Radar : MonoBehaviour
         _trailRadar = transform.Find("Trail") as RectTransform;
         _ship = Ship.GetComponent<Transform>();
         //angularSpeed = 180;
-        colliders = new List<Collider>();
+        radarPings = new GameObject[1000];
+        currentRadarPing = 0;
+
+        for (int i = 0;i<radarPings.Length;i++)
+        {
+            radarPings[i] = Instantiate(radarPingPrefab, gameObject.transform);
+            radarPings[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        UpdateRadar();
 
+        UpdateRadar();
+        
     }
 
     private void UpdateRadar()
@@ -39,16 +48,20 @@ public class Radar : MonoBehaviour
         _refreshRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
         _trailRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
 
-        //Detect the nearby walls, etc.
-        DetectSorroundings();
+       //Limit the entry to the Detect function
+        LimitDetecting();
 
-        colliderTimer += Time.deltaTime;
+    }
 
-        if(colliderTimer > 0.1f)
+    private void LimitDetecting()
+    {
+        limitPings++;
+
+        if (limitPings >= pingInterval)
         {
-            colliders.Clear();
-
-            colliderTimer = 0.0f;
+            //Detect the nearby walls, etc.
+            DetectSorroundings();
+            limitPings = 0;
         }
     }
 
@@ -57,36 +70,39 @@ public class Radar : MonoBehaviour
         RaycastHit[] _raycastHitArray;
         _raycastHitArray = Physics.RaycastAll(_ship.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), radarDistance);
 
+        //DEBUG
         Debug.DrawRay(_ship.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), Color.red);
-        Debug.DrawLine(_ship.position, _ship.position + RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z) * radarDistance,Color.blue);
+        Debug.DrawLine(_ship.position, _ship.position + RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z) * radarDistance, Color.blue);
 
-        for(int i = 0;i<_raycastHitArray.Length;i++)
+        RaycastBehaviour(_raycastHitArray);
+    }
+    
+    private void RaycastBehaviour(RaycastHit[] _raycastHitArray)
+    {
+        for (int i = 0; i < _raycastHitArray.Length; i++)
         {
             if (_raycastHitArray[i].collider == null) return;
 
-            if (!colliders.Contains(_raycastHitArray[i].collider))
+            radarPings[currentRadarPing].SetActive(true);
+
+            radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
+
+            if (_raycastHitArray[i].collider.CompareTag("Wall"))
             {
-
-                colliders.Add(_raycastHitArray[i].collider);
-
-                GameObject pingGO = Instantiate(radarPingPrefab, _raycastHitArray[i].point, radarPingPrefab.transform.rotation);
-                pingGO.transform.SetParent(gameObject.transform);
-
-                if (_raycastHitArray[i].collider.CompareTag("Wall"))
-                {
-
-                    RadarPing radarPingRef = pingGO.GetComponent<RadarPing>();
-                    radarPingRef.ChangeColorOfPing(Color.white);
-
-
-                }
-                else if (_raycastHitArray[i].collider.CompareTag("Soul"))
-                {
-                    RadarPing radarPingRef = pingGO.GetComponent<RadarPing>();
-                    radarPingRef.ChangeColorOfPing(Color.green);
-
-                }
+                RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
+                radarPingRef.ChangeColorOfPing(Color.white);
             }
+            else if (_raycastHitArray[i].collider.CompareTag("Soul"))
+            {
+                RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
+                radarPingRef.ChangeColorOfPing(Color.green);
+            }
+
+            currentRadarPing++;
+
+            if (currentRadarPing >= radarPings.Length)
+                currentRadarPing = 0;
+
         }
     }
 
