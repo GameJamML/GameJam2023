@@ -93,10 +93,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _Amp1: 0.5
+    - _Amp1: 0.8
     - _Amp2: 0.3
     - _Amp3: 0.3
-    - _Amp4: 1
+    - _Amp4: 0.8
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -129,11 +129,11 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.30898649, g: 0.18614274, b: 0.8396226, a: 1}
+    - _Color: {r: 0.28515485, g: 0.36420363, b: 0.6792453, a: 1}
     - _Dir1: {r: 0.05, g: 0, b: 0.07, a: 0}
     - _Dir2: {r: 0.03, g: 0, b: -0.05, a: 0}
     - _Dir3: {r: 0.3, g: 0, b: 0.03, a: 0}
-    - _Dir4: {r: 0.2, g: 0, b: -0.12, a: 0}
+    - _Dir4: {r: -0.05, g: 0, b: -0.12, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TimeScales: {r: 0.9, g: 0.3, b: 0.3, a: 0.9}
