@@ -11,7 +11,8 @@ public class FlyCamera : MonoBehaviour
     public float mouseSensitivity = 2f;
     public float rotationSpeed = 5f;
 
-    private Vector2 pixelValue;
+    public Transform pointToFollow;
+    public float followDistance = 20.0f;
 
     ViewportBlitter blitter;
 
@@ -28,7 +29,8 @@ public class FlyCamera : MonoBehaviour
     void Update()
     {
         Orbit();
-        Pan();
+        
+        PointFollow();
     }
 
     private void Orbit()
@@ -66,6 +68,12 @@ public class FlyCamera : MonoBehaviour
 
         currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, rotationSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(30, currentAngle, 0);
+    }
+
+
+    private void PointFollow()
+    {
+        gameObject.transform.position = pointToFollow.position;
     }
 
     private void Pan()
