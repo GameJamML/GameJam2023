@@ -21,11 +21,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: m_Water
-  m_Shader: {fileID: -6465566751694194690, guid: 7c16cc36a5a539844885d4600126ebdb,
+  m_Shader: {fileID: -6465566751694194690, guid: 885ae544ef2eba54eb3ca82309de3966,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -92,6 +92,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO: 0.2
     - _AlphaClip: 0
     - _Amp1: 0.8
     - _Amp2: 0.3
@@ -127,9 +128,10 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _colourDepthMult: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.28515485, g: 0.36420363, b: 0.6792453, a: 1}
+    - _Color: {r: 0.14115341, g: 0.21103595, b: 0.49056602, a: 1}
     - _Dir1: {r: 0.05, g: 0, b: 0.07, a: 0}
     - _Dir2: {r: 0.03, g: 0, b: -0.05, a: 0}
     - _Dir3: {r: 0.3, g: 0, b: 0.03, a: 0}
