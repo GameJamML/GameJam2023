@@ -6,7 +6,7 @@ public class WheelController : MonoBehaviour
 {
     ShipController ship;
     public GameObject Timon;
-    float currentRotation = 0.0f;
+    public float currentRotation = 0.0f;
     float timonRotation = 0.0f;
 
     public float rotateSpeed = 0.2f;

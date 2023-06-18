@@ -7,22 +7,27 @@ public class Radar : MonoBehaviour
 
     private RectTransform _refreshRadar;
     private RectTransform _trailRadar;
-    private Transform _ship;
+    private Transform _rayCastOrigin;
+    private WheelController _shipWheelController;
     [Range(-720, 720)]
     [SerializeField] int angularSpeed;
     [SerializeField] int radarDistance;
     [SerializeField] int pingInterval = 5;
+    [SerializeField] GameObject rayCastOrigin;
     [SerializeField] GameObject Ship;
     [SerializeField] GameObject radarPingPrefab;
     private GameObject[] radarPings;
     private int currentRadarPing;
     private int limitPings = 0;
+    private float lastShipRotation;
+    private float lastTrailRotation;
     // Start is called before the first frame update
     void Start()
     {
         _refreshRadar = transform.Find("RadarRefresh") as RectTransform;
         _trailRadar = transform.Find("Trail") as RectTransform;
-        _ship = Ship.GetComponent<Transform>();
+        _rayCastOrigin = rayCastOrigin.GetComponent<Transform>();
+        _shipWheelController = Ship.GetComponent<WheelController>();
         //angularSpeed = 180;
         radarPings = new GameObject[1000];
         currentRadarPing = 0;
@@ -32,6 +37,9 @@ public class Radar : MonoBehaviour
             radarPings[i] = Instantiate(radarPingPrefab, gameObject.transform);
             radarPings[i].SetActive(false);
         }
+
+        lastShipRotation = 0;
+        lastTrailRotation = 0;
     }
 
     // Update is called once per frame
@@ -45,10 +53,32 @@ public class Radar : MonoBehaviour
     private void UpdateRadar()
     {
         //Rotate Refresh on radar, la linia vamos
-        _refreshRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
-        _trailRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
 
-       //Limit the entry to the Detect function
+        if (Input.GetKey(KeyCode.A))
+        {
+            lastShipRotation = _shipWheelController.currentRotation;
+            lastTrailRotation = _shipWheelController.currentRotation;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            lastShipRotation = _shipWheelController.currentRotation;
+            lastTrailRotation = _shipWheelController.currentRotation;
+        }
+
+        //if(_shipController.rotateInput != 0)
+        //{
+        //    _refreshRadar.Rotate(Vector3.forward, _shipController.rotateInput * _shipController._rotationSpeed * Time.deltaTime);
+        //    _trailRadar.Rotate(Vector3.forward, _shipController.rotateInput * _shipController._rotationSpeed * Time.deltaTime);
+
+        //}
+
+        //float totalAngularSpeed = angularSpeed + Ship.transform.rotation.eulerAngles.y;
+
+        _refreshRadar.Rotate(Vector3.forward, (angularSpeed + lastShipRotation) * Time.deltaTime);
+        _trailRadar.Rotate(Vector3.forward, (angularSpeed + lastTrailRotation) * Time.deltaTime);
+
+
+        //Limit the entry to the Detect function
         LimitDetecting();
 
     }
@@ -68,11 +98,11 @@ public class Radar : MonoBehaviour
     private void DetectSorroundings()
     {
         RaycastHit[] _raycastHitArray;
-        _raycastHitArray = Physics.RaycastAll(_ship.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), radarDistance);
+        _raycastHitArray = Physics.RaycastAll(_rayCastOrigin.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), radarDistance);
 
         //DEBUG
-        Debug.DrawRay(_ship.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), Color.red);
-        Debug.DrawLine(_ship.position, _ship.position + RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z) * radarDistance, Color.blue);
+        Debug.DrawRay(_rayCastOrigin.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), Color.red);
+        Debug.DrawLine(_rayCastOrigin.position, _rayCastOrigin.position + RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z) * radarDistance, Color.blue);
 
         RaycastBehaviour(_raycastHitArray);
     }
@@ -82,8 +112,6 @@ public class Radar : MonoBehaviour
         for (int i = 0; i < _raycastHitArray.Length; i++)
         {
             if (_raycastHitArray[i].collider == null) return;
-
-            
 
             if (_raycastHitArray[i].collider.CompareTag("Wall"))
             {
