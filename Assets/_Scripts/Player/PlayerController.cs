@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    private Transform cameraTransform;
+    public Transform cameraTransform;
     private Vector3 direction;
     private Vector3 velocity;
     private Vector3 lastForward;
@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         // Assume there is only 1 camera in the scene
-        cameraTransform = FindObjectOfType<Camera>().gameObject.transform;
     }
 
     private void Update()
