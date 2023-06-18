@@ -9,11 +9,11 @@ public class ShipController : MonoBehaviour
 
     [Header("Ship Rotation")]
     [SerializeField, Range(-1, 1)] private float _rotateInput = 0.0f;
-    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float _rotationSpeed = 5f;
 
     private Rigidbody _rb;
 
-    public float speedMagnitud
+    public float speedMagnitude
     {
         get
         {
@@ -50,14 +50,14 @@ public class ShipController : MonoBehaviour
     void Update()
     {
         // Movement test
-        speedMagnitud = speedMagnitud + Input.GetAxis("Vertical") * Time.deltaTime;
+        speedMagnitude = speedMagnitude + Input.GetAxis("Vertical") * Time.deltaTime;
 
         // Rotation test
         rotateInput = Input.GetAxis("Horizontal");
 
         // Update Angle
         if (rotateInput != 0)
-            transform.Rotate(new Vector3(0, _rotateInput * rotationSpeed * Time.deltaTime, 0));
+            transform.Rotate(new Vector3(0, _rotateInput * _rotationSpeed * Time.deltaTime, 0));
     }
 
     void FixedUpdate()
