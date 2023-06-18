@@ -50,10 +50,10 @@ public class ShipController : MonoBehaviour
     void Update()
     {
         // Movement test
-        speedMagnitude = speedMagnitude + Input.GetAxis("Vertical") * Time.deltaTime;
+        //speedMagnitude = speedMagnitude + Input.GetAxis("Vertical") * Time.deltaTime;
 
-        // Rotation test
-        rotateInput = Input.GetAxis("Horizontal");
+        //// Rotation test
+        //rotateInput = Input.GetAxis("Horizontal");
 
         // Update Angle
         if (rotateInput != 0)
@@ -67,7 +67,6 @@ public class ShipController : MonoBehaviour
 
         // Calculate velocity
         _rb.velocity = forwardDirection * _speedMagnitude * _maxSpeed;
-
         _rb.angularVelocity = Vector3.zero;
     }
 }
