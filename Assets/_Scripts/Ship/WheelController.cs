@@ -5,7 +5,9 @@ using UnityEngine;
 public class WheelController : MonoBehaviour
 {
     ShipController ship;
-    float currentRotation = 0.0f;
+    public GameObject Timon;
+    public float currentRotation = 0.0f;
+    float timonRotation = 0.0f;
 
     public float rotateSpeed = 0.2f;
     void Awake()
@@ -26,10 +28,18 @@ public class WheelController : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             currentRotation -= rotateSpeed * Time.deltaTime;
+            if (Timon.transform.eulerAngles.y > 100)
+            {
+               
+                Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
+            }
         }
         else if (Input.GetKey(KeyCode.D))
         {
             currentRotation += rotateSpeed * Time.deltaTime;
+            if (Timon.transform.eulerAngles.y < 235) {
+                Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
+                }
         }
         else
         {

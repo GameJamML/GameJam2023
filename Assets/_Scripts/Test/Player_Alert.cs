@@ -28,7 +28,7 @@ public class Player_Alert : MonoBehaviour
 
    private void OnTriggerExit(Collider other)
    {
-       if (other.tag == "Wall" )
+       if (other.CompareTag("Wall") )
        {
            Alert.AlertAvaliable(false);
        }
