@@ -11,12 +11,15 @@ public class RadarPing : MonoBehaviour
     private SpriteRenderer _radarPingRenderer;
     Color pingColor;
     // Start is called before the first frame update
+
+    private void OnEnable()
+    {
+        Lifetime = 2.0f;
+        remainingLifetime = Lifetime;
+    }
     void Start()
     {
         _radarPingRenderer = gameObject.GetComponent<SpriteRenderer>();
-        Lifetime = 2.0f;
-        remainingLifetime = Lifetime;
-        _radarPingRenderer.color = pingColor;
     }
 
     // Update is called once per frame
@@ -24,13 +27,11 @@ public class RadarPing : MonoBehaviour
     {
         _radarPingRenderer.color = pingColor;
 
-        if (remainingLifetime <= 0) Destroy(gameObject);
+        if (remainingLifetime <= 0) gameObject.SetActive(false);
                
         remainingLifetime -= Time.deltaTime;
 
-        pingColor.a = Mathf.Lerp(0.0f, Lifetime, remainingLifetime);
-        
-
+        pingColor.a = Mathf.Lerp(0.0f, Lifetime, remainingLifetime);       
     }
 
     public void ChangeColorOfPing(Color colorToChange)
