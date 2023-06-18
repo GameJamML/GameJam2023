@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     private Vector3 velocity;
     private Vector3 lastForward;
-    private Rigidbody rigidbody;
-
+    private Rigidbody _rb;
     public float speed = 1.0f;
+    public LayerMask layer;
 
     private bool canInteract = true;
 
@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     {
         // Assume there is only 1 camera in the scene
         cameraTransform = FindObjectOfType<Camera>().gameObject.transform;
-        rigidbody = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -44,6 +43,14 @@ public class PlayerController : MonoBehaviour
         velocity.y = 0;
         velocity.Normalize();
 
+        Ray ray = new Ray(transform.position, velocity);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layer))
+        {
+            if (hit.distance > 1.0f)
+                transform.position += velocity * speed * Time.deltaTime;
+        }
+
         if (direction.magnitude > 0)
         {
             transform.forward = direction;
@@ -60,7 +67,7 @@ public class PlayerController : MonoBehaviour
         if (!canInteract)
             return;
 
-        rigidbody.velocity = velocity * speed;
+        //GetComponent<Rigidbody>().velocity = velocity * speed;
     }
 
     public void StopInteraction()

@@ -8,9 +8,12 @@ public class FlagController : MonoBehaviour
     float flagHeight = 0.0f;
     public GameObject test;
 
-    void Init()
+    ShipController ship;
+
+    void Awake()
     {
-        
+        ship = FindObjectOfType<ShipController>();
+        ship.speedMagnitude = flagHeight;
     }
 
     // Update is called once per frames
@@ -36,5 +39,7 @@ public class FlagController : MonoBehaviour
             else
                 flagHeight = 0;
         }
+        ship.speedMagnitude = flagHeight;
+
     }
 }
