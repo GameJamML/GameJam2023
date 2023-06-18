@@ -6,6 +6,7 @@ public class Alert_Script : MonoBehaviour
 {
     public Transform target_to_Camera;
     public GameObject player;
+
     // Start is called before the first frame update
     void Start()
     {

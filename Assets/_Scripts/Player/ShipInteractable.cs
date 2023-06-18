@@ -8,9 +8,11 @@ public class ShipInteractable : MonoBehaviour
     protected bool isPlayerOn = false;
     protected PlayerController player;
     protected bool isOpen = false;
+    Alert_Script Alert;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
+        Alert = FindObjectOfType<Alert_Script>();
     }
     
     private void Update()
@@ -23,6 +25,7 @@ public class ShipInteractable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerOn = true;
+            Alert.AlertAvaliable(true);
         }
     }
 
@@ -31,6 +34,7 @@ public class ShipInteractable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerOn = false;
+            Alert.AlertAvaliable(false);
             if (isOpen)
                 PlayerLeave(); // For Security reasons. Makes sure the interface closes if somehow you move out the trigger.
         }
