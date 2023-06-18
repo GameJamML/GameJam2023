@@ -83,17 +83,24 @@ public class Radar : MonoBehaviour
         {
             if (_raycastHitArray[i].collider == null) return;
 
-            radarPings[currentRadarPing].SetActive(true);
-
-            radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
+            
 
             if (_raycastHitArray[i].collider.CompareTag("Wall"))
             {
+                radarPings[currentRadarPing].SetActive(true);
+
+                radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
+
                 RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
                 radarPingRef.ChangeColorOfPing(Color.white);
             }
             else if (_raycastHitArray[i].collider.CompareTag("Soul"))
             {
+
+                radarPings[currentRadarPing].SetActive(true);
+
+                radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
+
                 RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
                 radarPingRef.ChangeColorOfPing(Color.green);
             }
