@@ -42,14 +42,14 @@ public class FlyCamera : MonoBehaviour
         {
             targetAngle += mouseX * mouseSensitivity;
         }
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            targetAngle += 45;
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            targetAngle -= 45;
-        }
+        //else if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    targetAngle += 45;
+        //}
+        //else if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    targetAngle -= 45;
+        //}
         else //Ince the mouse is let go, the camera pivot snaps to an increment o 45
         {
             targetAngle = Mathf.Round(targetAngle / 45);

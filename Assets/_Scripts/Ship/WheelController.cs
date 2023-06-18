@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class WheelController : MonoBehaviour
 {
+    ShipController ship;
+    float currentRotation = 0.0f;
 
-    public GameObject flag;
-
-    // Start is called before the first frame update
-    void Start()
+    public float rotateSpeed = 0.2f;
+    void Awake()
     {
-        
+        ship = FindObjectOfType<ShipController>();
+        ship.rotateInput = currentRotation;
+    }
+
+    private void OnDisable()
+    {
+        currentRotation = 0;
+        ship.rotateInput = 0;
     }
 
     // Update is called once per frame
@@ -18,11 +25,21 @@ public class WheelController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            flag.transform.Rotate(new Vector3(0, 1, 0), 1);
+            currentRotation -= rotateSpeed * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            flag.transform.Rotate(new Vector3(0, 1, 0), -1);
+            currentRotation += rotateSpeed * Time.deltaTime;
         }
+        else
+        {
+            currentRotation = Mathf.Lerp(currentRotation, 0, rotateSpeed * 2 *Time.deltaTime);
+        }
+
+        if (currentRotation > 1)
+            currentRotation = 1;
+        if (currentRotation < -1)
+            currentRotation = -1;
+        ship.rotateInput = currentRotation;
     }
 }
