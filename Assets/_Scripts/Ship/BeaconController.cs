@@ -5,6 +5,7 @@ using UnityEngine;
 public class BeaconController : MonoBehaviour
 {
     public GameObject beaconOrigin;
+    public Light beaconLight;
 
     bool beaconActivated = false;
 
@@ -13,13 +14,10 @@ public class BeaconController : MonoBehaviour
 
     float coolDownTime = 2.0f;
     float currentCoolDowntime = 2.0f;
-
-    public MeshRenderer mesh;
     public BoxCollider boxCollider;    
 
     public void Awake()
     {
-        mesh = gameObject.GetComponent<MeshRenderer>();
         currentCoolDowntime = 5.0f;
     }
 
@@ -34,16 +32,21 @@ public class BeaconController : MonoBehaviour
         }
 
         if (currentTime < beaconTime)
-            currentTime += Time.deltaTime;
+        {
+            currentTime += Time.deltaTime; 
+            float timePercentage = 1.0f - (currentTime / beaconTime);
+
+            beaconLight.intensity = 10000 * timePercentage;
+        }
         else
         {
             currentCoolDowntime = 0.0f;
             currentTime = 0.0f;
             beaconActivated = false;
-            mesh.enabled = false;
             boxCollider.enabled = false;
+            beaconLight.intensity = 0;
         }
-        
+
     }
 
     public void ActivateBeacon()
@@ -52,8 +55,8 @@ public class BeaconController : MonoBehaviour
             return;
 
         beaconActivated = true;
-        mesh.enabled = true;
         boxCollider.enabled = true;
+        beaconLight.intensity = 10000;
     }
 
     private void OnTriggerEnter(Collider other)

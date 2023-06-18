@@ -6,7 +6,6 @@ public class FlagController : MonoBehaviour
 {
     public float controllingSpeed = 0.5f;
     float flagHeight = 0.0f;
-    public GameObject test;
 
     ShipController ship;
 
@@ -24,7 +23,6 @@ public class FlagController : MonoBehaviour
             if (flagHeight < 1.0f)
             {
                 flagHeight += controllingSpeed * Time.deltaTime;
-                test.transform.position += new Vector3(0, controllingSpeed * Time.deltaTime, 0);
             }
             else
                 flagHeight = 1.0f;
@@ -34,7 +32,6 @@ public class FlagController : MonoBehaviour
             if (flagHeight > 0)
             {
                 flagHeight -= controllingSpeed * Time.deltaTime;
-                test.transform.position -= new Vector3(0, controllingSpeed * Time.deltaTime, 0);
             }
             else
                 flagHeight = 0;
