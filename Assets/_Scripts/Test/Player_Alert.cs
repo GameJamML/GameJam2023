@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Player_Alert : MonoBehaviour
 {
-    Alert_Script Alert;
+    public Alert_Script Alert;
     // Start is called before the first frame update
     void Start()
     {
-       Alert = FindObjectOfType<Alert_Script>();
+        
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class Player_Alert : MonoBehaviour
 
    private void OnTriggerExit(Collider other)
    {
-       if (other.tag == "Wall" )
+       if (other.CompareTag("Wall") )
        {
            Alert.AlertAvaliable(false);
        }

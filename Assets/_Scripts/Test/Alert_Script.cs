@@ -18,7 +18,7 @@ public class Alert_Script : MonoBehaviour
     {
         transform.LookAt(gameObject.transform.position - target_to_Camera.position);
 
-        transform.position = new Vector3 (player.transform.position.x, player.transform.position.y + 1.5f, player.transform.position.z );
+        transform.position = new Vector3 (player.transform.position.x, player.transform.position.y + 9f, player.transform.position.z );
     }
 
     public void AlertAvaliable(bool active){
