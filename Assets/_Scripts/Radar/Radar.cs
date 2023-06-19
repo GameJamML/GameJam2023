@@ -12,8 +12,10 @@ public class Radar : MonoBehaviour
     [Range(-720, 720)]
     [SerializeField] int angularSpeed;
     [SerializeField] int radarDistance;
+    [SerializeField] int radarDistanceObjectives;
     [SerializeField] int pingInterval = 5;
     [SerializeField] GameObject rayCastOrigin;
+    [SerializeField] GameObject rayCastForObjectives;
     [SerializeField] GameObject Ship;
     [SerializeField] GameObject radarPingPrefab;
     private GameObject[] radarPings;
@@ -23,6 +25,10 @@ public class Radar : MonoBehaviour
 
     private Vector3 cleanEuler = Vector3.zero;
     private Vector3 finalEuler = Vector3.zero;
+
+    private bool isDetectingObjectives = false;
+    [SerializeField] private float objectivesPingMaxDuration = 1.0f;
+    [SerializeField] private float objectivesPingDuration = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +55,13 @@ public class Radar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //Debug
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            isDetectingObjectives = true;
+            objectivesPingDuration = 0.0f;
+        }
 
         UpdateRadar();
 
@@ -88,8 +101,28 @@ public class Radar : MonoBehaviour
         {
             //Detect the nearby walls, etc.
             DetectSorroundings();
+
+            if (isDetectingObjectives)
+                DetectObjectives();
+
             limitPings = 0;
         }
+    }
+
+    private void DetectObjectives()
+    {
+
+        RaycastHit[] _raycastHitArray;
+        _raycastHitArray = Physics.RaycastAll(_rayCastOrigin.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), radarDistanceObjectives);
+
+        RaycastBehaviour(_raycastHitArray, true);
+
+        if (objectivesPingDuration > objectivesPingMaxDuration)
+        {
+            isDetectingObjectives = false;
+        }
+        objectivesPingDuration += Time.deltaTime;
+
     }
 
     private void DetectSorroundings()
@@ -101,16 +134,41 @@ public class Radar : MonoBehaviour
         Debug.DrawRay(_rayCastOrigin.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), Color.red);
         Debug.DrawLine(_rayCastOrigin.position, _rayCastOrigin.position + RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z) * radarDistance, Color.blue);
 
-        RaycastBehaviour(_raycastHitArray);
+        RaycastBehaviour(_raycastHitArray, false);
     }
 
-    private void RaycastBehaviour(RaycastHit[] _raycastHitArray)
+    private void RaycastBehaviour(RaycastHit[] _raycastHitArray, bool isObjectives = false)
     {
         for (int i = 0; i < _raycastHitArray.Length; i++)
         {
             if (_raycastHitArray[i].collider == null || colliders.Contains(_raycastHitArray[i].collider)) return;
 
 
+            if (isObjectives)
+            {
+                if (_raycastHitArray[i].collider.CompareTag("Soul"))
+                {
+                    colliders.Add(_raycastHitArray[i].collider);
+
+                    radarPings[currentRadarPing].SetActive(true);
+
+                    radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
+
+                    RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
+                    radarPingRef.ChangeColorOfPing(Color.green);
+                    isDetectingObjectives = false;
+
+
+                    if (_raycastHitArray[i].distance > radarDistance)
+                    {
+                        Vector3 dir = _raycastHitArray[i].transform.position - transform.position;
+                        dir.z = 0.0f;
+                        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                        Debug.Log("Angle of objective -> " + angle);
+                    }
+
+                }
+            }
 
             if (_raycastHitArray[i].collider.CompareTag("Wall"))
             {
@@ -123,23 +181,22 @@ public class Radar : MonoBehaviour
                 RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
                 radarPingRef.ChangeColorOfPing(Color.white);
             }
-            else if (_raycastHitArray[i].collider.CompareTag("Soul"))
-            {
-                colliders.Add(_raycastHitArray[i].collider);
+            //else if (_raycastHitArray[i].collider.CompareTag("Soul"))
+            //{
+            //    colliders.Add(_raycastHitArray[i].collider);
 
-                radarPings[currentRadarPing].SetActive(true);
+            //    radarPings[currentRadarPing].SetActive(true);
 
-                radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
+            //    radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
 
-                RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
-                radarPingRef.ChangeColorOfPing(Color.green);
-            }
+            //    RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
+            //    radarPingRef.ChangeColorOfPing(Color.green);
+            //}
 
             currentRadarPing++;
 
             if (currentRadarPing >= radarPings.Length)
                 currentRadarPing = 0;
-
         }
     }
 
