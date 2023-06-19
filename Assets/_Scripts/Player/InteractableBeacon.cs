@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractableBeacon : ShipInteractable
 {
     public BeaconController beaconController;
+    public AudioSource beaconAudioSource;
 
     private void Update()
     {
@@ -20,5 +21,6 @@ public class InteractableBeacon : ShipInteractable
     public override void PlayerInteraction()
     {
         beaconController.ActivateBeacon();
+        beaconAudioSource.Play();
     }
 }
