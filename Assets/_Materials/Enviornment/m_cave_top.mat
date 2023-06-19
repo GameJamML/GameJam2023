@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_rock1
+  m_Name: m_cave_top
   m_Shader: {fileID: -6465566751694194690, guid: 9fa7d50ce9cc05b4c918315f46cdf0d9,
     type: 3}
   m_ValidKeywords: []
