@@ -499,9 +499,9 @@ GameObject:
   - component: {fileID: 4048639078596725730}
   - component: {fileID: 4048639078596725731}
   - component: {fileID: 4048639078596725732}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall_05
-  m_TagString: Untagged
+  m_TagString: PhysicalWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8713,7 +8713,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4048639078596725733}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e146f2eeed599eb48ab80f1e3b1b872e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
