@@ -5,7 +5,7 @@ using UnityEngine;
 public class FlagController : MonoBehaviour
 {
     public float controllingSpeed = 0.5f;
-    float flagHeight = 0.0f;
+    public float flagHeight = 0.0f;
 
     ShipController ship;
 

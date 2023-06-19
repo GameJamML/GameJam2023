@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Chunk
   - Ship
+  - PhysicalWall
   layers:
   - Default
   - TransparentFX

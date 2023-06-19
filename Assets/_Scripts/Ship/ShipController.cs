@@ -12,6 +12,10 @@ public class ShipController : MonoBehaviour
     [SerializeField] public float _rotationSpeed = 5f;
 
     private Rigidbody _rb;
+    bool crashed = false;
+    float crashTime = 3.0f;
+    float currentCrashtime = 0.0f;
+    FlagController flagController;
 
     public float speedMagnitude
     {
@@ -45,24 +49,44 @@ public class ShipController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _rb.useGravity = false;
         _rb.isKinematic = false;
+        flagController = FindObjectOfType<FlagController>();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("PhysicalWall"))
+        {
+            crashed = true;
+            currentCrashtime = 0;
+            flagController.flagHeight = 0;
+            speedMagnitude = 0;
+        }
+    }
     void Update()
     {
+        if (crashed)
+        {
+            currentCrashtime += Time.deltaTime;
+
+            if (currentCrashtime >= crashTime)
+                crashed = false;
+        }
         // Movement test
         //speedMagnitude = speedMagnitude + Input.GetAxis("Vertical") * Time.deltaTime;
 
         //// Rotation test
         //rotateInput = Input.GetAxis("Horizontal");
-
-        Debug.Log(rotateInput);
         // Update Angle
         if (rotateInput != 0)
             transform.Rotate(new Vector3(0, _rotateInput * _rotationSpeed * Time.deltaTime, 0));
+
+        
     }
 
     void FixedUpdate()
     {
+        if (crashed)
+            return;
         // Get forward direction
         Vector3 forwardDirection = transform.forward;
 
