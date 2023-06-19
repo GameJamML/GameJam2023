@@ -55,7 +55,7 @@ public class ShipController : MonoBehaviour
         //// Rotation test
         //rotateInput = Input.GetAxis("Horizontal");
 
-        Debug.Log(rotateInput);
+        //Debug.Log(rotateInput);
         // Update Angle
         if (rotateInput != 0)
             transform.Rotate(new Vector3(0, _rotateInput * _rotationSpeed * Time.deltaTime, 0));
