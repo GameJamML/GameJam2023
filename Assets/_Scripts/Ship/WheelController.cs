@@ -27,22 +27,36 @@ public class WheelController : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             currentRotation -= rotateSpeed * Time.deltaTime;
-            if (Timon.transform.eulerAngles.y > 100)
+            if (Timon.transform.eulerAngles.y < 225)
             {
-               
-                Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
+                Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
             }
         }
         else if (Input.GetKey(KeyCode.D))
         {
             currentRotation += rotateSpeed * Time.deltaTime;
-            if (Timon.transform.eulerAngles.y < 235) {
-                Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
+            if (Timon.transform.eulerAngles.y > 135)
+            {
+                Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
                 }
         }
         else
         {
             currentRotation = Mathf.Lerp(currentRotation, 0, rotateSpeed * 2 *Time.deltaTime);
+            if (Timon.transform.eulerAngles.y > 181)
+            {
+                Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
+                Debug.Log(Timon.transform.eulerAngles.y);
+            }
+            else if (Timon.transform.eulerAngles.y < 179)
+            {
+                Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
+                Debug.Log(Timon.transform.eulerAngles.y);
+            }
+            else
+            {
+                Timon.transform.Rotate(0, 0.0f, 0.0f, Space.Self);
+            }
         }
 
         if (currentRotation > 1)
