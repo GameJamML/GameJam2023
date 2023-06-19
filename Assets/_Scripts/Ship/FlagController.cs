@@ -2,7 +2,7 @@ using UnityEngine;
 public class FlagController : MonoBehaviour
 {
     public float controllingSpeed = 0.5f;
-    private float _flagHeight = 0.0f;
+    public float flagHeight = 0.0f;
     private ShipController _ship;
     [SerializeField] private Transform _flagTop;
     [SerializeField] private Transform _flagBottom;
@@ -12,10 +12,11 @@ public class FlagController : MonoBehaviour
     private float _moveDistance;
     private Vector3 _flagBottomStartPos;
 
+
     void Awake()
     {
         _ship = FindObjectOfType<ShipController>();
-        _ship.speedMagnitude = _flagHeight;
+        _ship.speedMagnitude = flagHeight;
     }
 
     void Start()
@@ -41,22 +42,22 @@ public class FlagController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            if (_flagHeight < 1.0f)
-                _flagHeight += controllingSpeed * Time.deltaTime;
+            if (flagHeight < 1.0f)
+                flagHeight += controllingSpeed * Time.deltaTime;
             else
-                _flagHeight = 1.0f;
+                flagHeight = 1.0f;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            if (_flagHeight > 0)
-                _flagHeight -= controllingSpeed * Time.deltaTime;
+            if (flagHeight > 0)
+                flagHeight -= controllingSpeed * Time.deltaTime;
             else
-                _flagHeight = 0;
+                flagHeight = 0;
         }
-        _ship.speedMagnitude = _flagHeight;
+        _ship.speedMagnitude = flagHeight;
 
-        _flagBottom.position = new Vector3(_flagBottom.position.x, _flagBottomStartPos.y + _moveDistance * (1 - _flagHeight), _flagBottom.position.z);
+        _flagBottom.position = new Vector3(_flagBottom.position.x, _flagBottomStartPos.y + _moveDistance * (1 - flagHeight), _flagBottom.position.z);
 
-        _flagRenderer.material.SetTextureOffset(_texturePropertyID, new Vector2(0, 1 - (_flagHeight)));
+        _flagRenderer.material.SetTextureOffset(_texturePropertyID, new Vector2(0, 1 - (flagHeight)));
     }
 }

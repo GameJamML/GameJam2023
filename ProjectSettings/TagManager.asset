@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Soul
   - Wall
+  - Chunk
+  - Ship
+  - PhysicalWall
   layers:
   - Default
   - TransparentFX
@@ -16,9 +19,9 @@ TagManager:
   - Trail
   - Minimap
   - ShipWalls
-  - 
-  - 
-  - 
+  - ChunkLayer
+  - ShipHull
+  - ExteriorWall
   - 
   - 
   - 
