@@ -24,7 +24,6 @@ public class WheelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Timon.transform.eulerAngles.y);
         if (Input.GetKey(KeyCode.A))
         {
             currentRotation -= rotateSpeed * Time.deltaTime;
@@ -44,22 +43,19 @@ public class WheelController : MonoBehaviour
         else
         {
             currentRotation = Mathf.Lerp(currentRotation, 0, rotateSpeed * 2 *Time.deltaTime);
-            if (Timon.transform.eulerAngles.y < 225 && Timon.transform.eulerAngles.y > 181)
+            if (Timon.transform.eulerAngles.y > 181)
             {
                 Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
                 Debug.Log(Timon.transform.eulerAngles.y);
-                Debug.Log("vuelvo1");
             }
-            else if (Timon.transform.eulerAngles.y > 135 && Timon.transform.eulerAngles.y < 179)
+            else if (Timon.transform.eulerAngles.y < 179)
             {
                 Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
                 Debug.Log(Timon.transform.eulerAngles.y);
-                Debug.Log("vuelvo2");
             }
             else
             {
                 Timon.transform.Rotate(0, 0.0f, 0.0f, Space.Self);
-                Debug.Log("stop");
             }
         }
 
