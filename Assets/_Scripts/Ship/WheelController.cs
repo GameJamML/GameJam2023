@@ -46,12 +46,10 @@ public class WheelController : MonoBehaviour
             if (Timon.transform.eulerAngles.y > 181)
             {
                 Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
-                Debug.Log(Timon.transform.eulerAngles.y);
             }
             else if (Timon.transform.eulerAngles.y < 179)
             {
                 Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
-                Debug.Log(Timon.transform.eulerAngles.y);
             }
             else
             {
