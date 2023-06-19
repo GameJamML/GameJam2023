@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    private Animator _animator;
+
     public Transform cameraTransform;
     private Vector3 direction;
     private Vector3 velocity;
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         // Assume there is only 1 camera in the scene
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -34,6 +37,8 @@ public class PlayerController : MonoBehaviour
         velocity.x = Input.GetAxisRaw("Horizontal");
         velocity.z = Input.GetAxisRaw("Vertical");
 
+        _animator.SetFloat("Speed", velocity.magnitude);
+
         direction = cameraTransform.localToWorldMatrix * direction;
         direction.y = 0;
         direction.Normalize();
@@ -48,6 +53,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.distance > 1.0f)
                 transform.position += velocity * speed * Time.deltaTime;
+                
         }
 
         if (direction.magnitude > 0)
