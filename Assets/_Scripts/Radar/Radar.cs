@@ -36,7 +36,7 @@ public class Radar : MonoBehaviour
         radarPings = new GameObject[100];
         currentRadarPing = 0;
 
-        for (int i = 0;i<radarPings.Length;i++)
+        for (int i = 0; i < radarPings.Length; i++)
         {
             radarPings[i] = Instantiate(radarPingPrefab, gameObject.transform);
             radarPings[i].SetActive(false);
@@ -51,7 +51,7 @@ public class Radar : MonoBehaviour
     {
 
         UpdateRadar();
-        
+
     }
 
     private void UpdateRadar()
@@ -103,14 +103,14 @@ public class Radar : MonoBehaviour
 
         RaycastBehaviour(_raycastHitArray);
     }
-    
+
     private void RaycastBehaviour(RaycastHit[] _raycastHitArray)
     {
         for (int i = 0; i < _raycastHitArray.Length; i++)
         {
             if (_raycastHitArray[i].collider == null || colliders.Contains(_raycastHitArray[i].collider)) return;
 
-            
+
 
             if (_raycastHitArray[i].collider.CompareTag("Wall"))
             {
