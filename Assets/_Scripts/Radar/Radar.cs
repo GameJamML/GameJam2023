@@ -8,7 +8,7 @@ public class Radar : MonoBehaviour
     private RectTransform _refreshRadarHUD;
     private RectTransform _trailRadar;
     private Transform _rayCastOrigin;
-    private WheelController _shipWheelController;
+
     [Range(-720, 720)]
     [SerializeField] int angularSpeed;
     [SerializeField] int radarDistance;
@@ -17,6 +17,7 @@ public class Radar : MonoBehaviour
     [SerializeField] GameObject Ship;
     [SerializeField] GameObject radarPingPrefab;
     private GameObject[] radarPings;
+    private List<Collider> colliders;
     private int currentRadarPing;
     private int limitPings = 0;
 
@@ -30,9 +31,9 @@ public class Radar : MonoBehaviour
         _refreshRadarHUD = transform.Find("RadarRefreshHUD") as RectTransform;
         _trailRadar = transform.Find("Trail") as RectTransform;
         _rayCastOrigin = rayCastOrigin.GetComponent<Transform>();
-        _shipWheelController = Ship.GetComponent<WheelController>();
         //angularSpeed = 180;
-        radarPings = new GameObject[1000];
+        colliders = new List<Collider>();
+        radarPings = new GameObject[100];
         currentRadarPing = 0;
 
         for (int i = 0;i<radarPings.Length;i++)
@@ -58,9 +59,10 @@ public class Radar : MonoBehaviour
         Vector3 shipRot = Ship.transform.eulerAngles;
 
         _refreshRadar.eulerAngles = cleanEuler;
+        float LastRot = (_refreshRadar.eulerAngles.z % 360) - 180;
         _refreshRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
         cleanEuler = _refreshRadar.eulerAngles;
-
+        float currentRot = (_refreshRadar.eulerAngles.z % 360) - 180;
         finalEuler = cleanEuler;
         finalEuler.z -= shipRot.y;
         _refreshRadar.eulerAngles = finalEuler;
@@ -69,8 +71,13 @@ public class Radar : MonoBehaviour
         _trailRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
 
         //Limit the entry to the Detect function
+
         LimitDetecting();
 
+        if (LastRot < 0 && currentRot >= 0 && colliders.Count > 0)
+        {
+            colliders.Clear();
+        }
     }
 
     private void LimitDetecting()
@@ -101,10 +108,14 @@ public class Radar : MonoBehaviour
     {
         for (int i = 0; i < _raycastHitArray.Length; i++)
         {
-            if (_raycastHitArray[i].collider == null) return;
+            if (_raycastHitArray[i].collider == null || colliders.Contains(_raycastHitArray[i].collider)) return;
+
+            
 
             if (_raycastHitArray[i].collider.CompareTag("Wall"))
             {
+                colliders.Add(_raycastHitArray[i].collider);
+
                 radarPings[currentRadarPing].SetActive(true);
 
                 radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
@@ -114,6 +125,7 @@ public class Radar : MonoBehaviour
             }
             else if (_raycastHitArray[i].collider.CompareTag("Soul"))
             {
+                colliders.Add(_raycastHitArray[i].collider);
 
                 radarPings[currentRadarPing].SetActive(true);
 
