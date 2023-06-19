@@ -11,6 +11,13 @@ public class ShipController : MonoBehaviour
     [SerializeField, Range(-1, 1)] private float _rotateInput = 0.0f;
     [SerializeField] public float _rotationSpeed = 5f;
 
+    [Header("Foam Particles")]
+    [SerializeField] float MultFrontFoamParticles;
+    [SerializeField] float backFrontFoamParticles;
+    [SerializeField] ParticleSystem leftFoamParticle;
+    [SerializeField] ParticleSystem rightFoamParticle;
+    [SerializeField] ParticleSystem backFoamParticle;
+
     private Rigidbody _rb;
     bool crashed = false;
     float crashTime = 3.0f;
@@ -73,6 +80,46 @@ public class ShipController : MonoBehaviour
         }
         // Movement test
         //speedMagnitude = speedMagnitude + Input.GetAxis("Vertical") * Time.deltaTime;
+
+        if(speedMagnitude > 0)
+        {
+            var leftFoamParticleEmission = leftFoamParticle.emission;
+            var rightFoamParticleEmission = rightFoamParticle.emission;
+            var backFoamParticleEmission = backFoamParticle.emission;
+
+            leftFoamParticleEmission.rateOverTime = MultFrontFoamParticles * speedMagnitude;
+            rightFoamParticleEmission.rateOverTime = MultFrontFoamParticles * speedMagnitude;
+            backFoamParticleEmission.rateOverTime = backFrontFoamParticles * speedMagnitude;
+
+            if (!leftFoamParticle.isPlaying)
+            {
+                leftFoamParticle.Play();
+            }
+            if (!rightFoamParticle.isPlaying)
+            {
+                rightFoamParticle.Play();
+            }
+            if (!backFoamParticle.isPlaying)
+            {
+                backFoamParticle.Play();
+            }
+
+        }
+        else
+        {
+            if (leftFoamParticle.isPlaying)
+            {
+                leftFoamParticle.Stop();
+            }
+            if (rightFoamParticle.isPlaying)
+            {
+                rightFoamParticle.Stop();
+            }
+            if (backFoamParticle.isPlaying)
+            {
+                backFoamParticle.Stop();
+            }
+        }
 
         //// Rotation test
         //rotateInput = Input.GetAxis("Horizontal");
