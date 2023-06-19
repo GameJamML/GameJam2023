@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Radar : MonoBehaviour
 {
-
     private RectTransform _refreshRadar;
+    private RectTransform _refreshRadarHUD;
     private RectTransform _trailRadar;
     private Transform _rayCastOrigin;
     private WheelController _shipWheelController;
@@ -19,12 +19,15 @@ public class Radar : MonoBehaviour
     private GameObject[] radarPings;
     private int currentRadarPing;
     private int limitPings = 0;
-    private float lastShipRotation;
-    private float lastTrailRotation;
+
+    private Vector3 cleanEuler = Vector3.zero;
+    private Vector3 finalEuler = Vector3.zero;
+
     // Start is called before the first frame update
     void Start()
     {
-        _refreshRadar = transform.Find("RadarRefresh") as RectTransform;
+        _refreshRadar = transform.Find("RadarRefreshRaycast") as RectTransform;
+        _refreshRadarHUD = transform.Find("RadarRefreshHUD") as RectTransform;
         _trailRadar = transform.Find("Trail") as RectTransform;
         _rayCastOrigin = rayCastOrigin.GetComponent<Transform>();
         _shipWheelController = Ship.GetComponent<WheelController>();
@@ -38,8 +41,8 @@ public class Radar : MonoBehaviour
             radarPings[i].SetActive(false);
         }
 
-        lastShipRotation = 0;
-        lastTrailRotation = 0;
+        cleanEuler = _refreshRadar.eulerAngles;
+        finalEuler = _refreshRadar.eulerAngles;
     }
 
     // Update is called once per frame
@@ -52,31 +55,18 @@ public class Radar : MonoBehaviour
 
     private void UpdateRadar()
     {
-        //Rotate Refresh on radar, la linia vamos
+        Vector3 shipRot = Ship.transform.eulerAngles;
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            lastShipRotation = _shipWheelController.currentRotation;
-            lastTrailRotation = _shipWheelController.currentRotation;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            lastShipRotation = _shipWheelController.currentRotation;
-            lastTrailRotation = _shipWheelController.currentRotation;
-        }
+        _refreshRadar.eulerAngles = cleanEuler;
+        _refreshRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
+        cleanEuler = _refreshRadar.eulerAngles;
 
-        //if(_shipController.rotateInput != 0)
-        //{
-        //    _refreshRadar.Rotate(Vector3.forward, _shipController.rotateInput * _shipController._rotationSpeed * Time.deltaTime);
-        //    _trailRadar.Rotate(Vector3.forward, _shipController.rotateInput * _shipController._rotationSpeed * Time.deltaTime);
+        finalEuler = cleanEuler;
+        finalEuler.z -= shipRot.y;
+        _refreshRadar.eulerAngles = finalEuler;
 
-        //}
-
-        //float totalAngularSpeed = angularSpeed + Ship.transform.rotation.eulerAngles.y;
-
-        _refreshRadar.Rotate(Vector3.forward, (angularSpeed + lastShipRotation) * Time.deltaTime);
-        _trailRadar.Rotate(Vector3.forward, (angularSpeed + lastTrailRotation) * Time.deltaTime);
-
+        _refreshRadarHUD.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
+        _trailRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
 
         //Limit the entry to the Detect function
         LimitDetecting();
