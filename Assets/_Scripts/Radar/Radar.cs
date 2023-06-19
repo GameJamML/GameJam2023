@@ -140,6 +140,10 @@ public class Radar : MonoBehaviour
             if (currentRadarPing >= radarPings.Length)
                 currentRadarPing = 0;
 
+            PingCallback callback = _raycastHitArray[i].collider.gameObject.GetComponent<PingCallback>();
+            if (callback != null)
+                callback.Callback();
+
         }
     }
 
