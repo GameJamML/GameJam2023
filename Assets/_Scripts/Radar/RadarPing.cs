@@ -14,7 +14,7 @@ public class RadarPing : MonoBehaviour
 
     private void OnEnable()
     {
-        Lifetime = 2.0f;
+        Lifetime = 4.0f;
         remainingLifetime = Lifetime;
     }
     void Start()
