@@ -1,18 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class FlagController : MonoBehaviour
 {
     public float controllingSpeed = 0.5f;
     public float flagHeight = 0.0f;
+    private ShipController _ship;
+    [SerializeField] private Transform _flagTop;
+    [SerializeField] private Transform _flagBottom;
+    [SerializeField] private Renderer _flagRenderer;
+    [SerializeField] private string _flagTestureName = "_BaseMap";
+    private int _texturePropertyID;
+    private float _moveDistance;
+    private Vector3 _flagBottomStartPos;
 
-    ShipController ship;
 
     void Awake()
     {
-        ship = FindObjectOfType<ShipController>();
-        ship.speedMagnitude = flagHeight;
+        _ship = FindObjectOfType<ShipController>();
+        _ship.speedMagnitude = flagHeight;
+    }
+
+    void Start()
+    {
+        _flagBottomStartPos = _flagBottom.position;
+        _texturePropertyID = Shader.PropertyToID(_flagTestureName);
+        _moveDistance = _flagTop.position.y - _flagBottomStartPos.y;
+        Debug.Log("ID" + _texturePropertyID);
+
+        /*
+                string[] texturePropertyNames = _flagRenderer.material.GetTexturePropertyNames();
+
+                // 输出纹理属性名称到控制台
+                foreach (string propertyName in texturePropertyNames)
+                {
+                    Debug.Log("Texture Property Name: " + propertyName);
+                }
+        */
     }
 
     // Update is called once per frames
@@ -21,22 +43,21 @@ public class FlagController : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             if (flagHeight < 1.0f)
-            {
                 flagHeight += controllingSpeed * Time.deltaTime;
-            }
             else
                 flagHeight = 1.0f;
         }
         else if (Input.GetKey(KeyCode.S))
         {
             if (flagHeight > 0)
-            {
                 flagHeight -= controllingSpeed * Time.deltaTime;
-            }
             else
                 flagHeight = 0;
         }
-        ship.speedMagnitude = flagHeight;
+        _ship.speedMagnitude = flagHeight;
 
+        _flagBottom.position = new Vector3(_flagBottom.position.x, _flagBottomStartPos.y + _moveDistance * (1 - flagHeight), _flagBottom.position.z);
+
+        _flagRenderer.material.SetTextureOffset(_texturePropertyID, new Vector2(0, 1 - (flagHeight)));
     }
 }
