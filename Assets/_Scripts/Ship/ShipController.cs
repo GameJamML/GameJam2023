@@ -17,6 +17,9 @@ public class ShipController : MonoBehaviour
     float currentCrashtime = 0.0f;
     FlagController flagController;
 
+    public AudioClip crashClip;
+    public AudioSource shipAudioSource;
+
     public float speedMagnitude
     {
         get
@@ -60,6 +63,10 @@ public class ShipController : MonoBehaviour
             currentCrashtime = 0;
             flagController.flagHeight = 0;
             speedMagnitude = 0;
+            shipAudioSource.clip = crashClip;
+            shipAudioSource.volume = Random.Range(0.9f, 1.0f);
+            shipAudioSource.pitch = Random.Range(0.9f, 1.1f);
+            shipAudioSource.Play();
         }
     }
     void Update()
