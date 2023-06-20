@@ -13,6 +13,10 @@ public class Enemy : MonoBehaviour
 
     MastilLights mastil;
 
+    ShipController shipController;
+
+    bool firstCrashSound = false;
+
     public int currentState
     {
         get
@@ -33,6 +37,7 @@ public class Enemy : MonoBehaviour
     {
         collider = GetComponent<SphereCollider>();
         mastil = FindObjectOfType<MastilLights>();
+        shipController = FindObjectOfType<ShipController>();
     }
 
     void Update()
@@ -113,9 +118,42 @@ public class Enemy : MonoBehaviour
 
                 break;
             case 3:
+                collider.enabled = true;
                 //Empieza tras coger el tercer objetivo.
                 //El perseguidor siempre aparece en el radar como un punto rojo más cerca que antes.
-                transform.localPosition = new Vector3(0, 0, _statePos[1]);
+                switch (phaseSubstate)
+                {
+                    case 0:
+                        transform.localPosition = new Vector3(0, 0, -140);
+                        mastil.ActivateLights();
+                        break;
+                    case 1:
+                        if (counter >= 1.0f)
+                        {
+                            transform.localPosition = new Vector3(0, 0, -90);
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                    case 2:
+                        if (counter >= 1.0f)
+                        {
+                            transform.localPosition = new Vector3(0, 0, -40);
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                    case 3:
+                        if (counter >= 2.0f && !firstCrashSound)
+                        {
+                            firstCrashSound = true;
+                            collider.enabled = false;
+                            shipController.CrashShip();
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                    case 4:
+                        collider.enabled = false;
+                        break;
+                }
                 break;
             case 4:
                 //Al llegar al último objetivo y utilizar el foco este no funciona. El objetivo se empieza a mover y es cuando la batería falla y ocurre el evento final.

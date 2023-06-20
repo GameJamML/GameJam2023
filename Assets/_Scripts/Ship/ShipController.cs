@@ -25,6 +25,7 @@ public class ShipController : MonoBehaviour
     FlagController flagController;
 
     public AudioClip crashClip;
+    public AudioClip specialCrashClip;
     public AudioSource shipAudioSource;
 
     public float speedMagnitude
@@ -149,5 +150,18 @@ public class ShipController : MonoBehaviour
         // Calculate velocity
         _rb.velocity = forwardDirection * _speedMagnitude * _maxSpeed;
         _rb.angularVelocity = Vector3.zero;
+    }
+
+    public void CrashShip()
+    {
+        if (shipAudioSource.isPlaying)
+            return;
+        crashed = true;
+        currentCrashtime = 0;
+        flagController.flagHeight = 0;
+        speedMagnitude = 0;
+        shipAudioSource.clip = specialCrashClip;
+
+        shipAudioSource.Play();
     }
 }
