@@ -27,7 +27,8 @@ public class WheelController : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             currentRotation -= rotateSpeed * Time.deltaTime;
-            if (Timon.transform.eulerAngles.y < 225)
+          
+            if (Timon.transform.localEulerAngles.y <  315)
             {
                 Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
             }
@@ -35,7 +36,7 @@ public class WheelController : MonoBehaviour
         else if (Input.GetKey(KeyCode.D))
         {
             currentRotation += rotateSpeed * Time.deltaTime;
-            if (Timon.transform.eulerAngles.y > 135)
+            if (Timon.transform.localEulerAngles.y > 225)
             {
                 Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
                 }
@@ -43,18 +44,7 @@ public class WheelController : MonoBehaviour
         else
         {
             currentRotation = Mathf.Lerp(currentRotation, 0, rotateSpeed * 2 *Time.deltaTime);
-            if (Timon.transform.eulerAngles.y > 181)
-            {
-                Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
-            }
-            else if (Timon.transform.eulerAngles.y < 179)
-            {
-                Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
-            }
-            else
-            {
-                Timon.transform.Rotate(0, 0.0f, 0.0f, Space.Self);
-            }
+            ResetpositionWheel();
         }
 
         if (currentRotation > 1)
@@ -62,5 +52,21 @@ public class WheelController : MonoBehaviour
         if (currentRotation < -1)
             currentRotation = -1;
         ship.rotateInput = currentRotation;
+    }
+
+    public void ResetpositionWheel()
+    {
+        if (Timon.transform.eulerAngles.y > 271)
+        {
+            Timon.transform.Rotate(-0.1f, 0.0f, 0.0f, Space.Self);
+        }
+        else if (Timon.transform.eulerAngles.y < 269)
+        {
+            Timon.transform.Rotate(0.1f, 0.0f, 0.0f, Space.Self);
+        }
+        else
+        {
+            Timon.transform.Rotate(0, 0.0f, 0.0f, Space.Self);
+        }
     }
 }

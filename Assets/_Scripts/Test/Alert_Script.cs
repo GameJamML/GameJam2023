@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class Alert_Script : MonoBehaviour
 {
-    public Transform target_to_Camera;
-    public GameObject player;
+    public Transform player;
+    public Camera camera;
+    public float altura;
 
+    private RectTransform rect;
     // Start is called before the first frame update
     void Start()
     {
         gameObject.SetActive(false);
+        rect = GetComponent<RectTransform>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(gameObject.transform.position - target_to_Camera.position);
-
+        rect.position = camera.WorldToScreenPoint(player.position + (Vector3.up)* altura);
     }
 
     public void AlertAvaliable(bool active){
@@ -31,5 +34,7 @@ public class Alert_Script : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+
 
 }

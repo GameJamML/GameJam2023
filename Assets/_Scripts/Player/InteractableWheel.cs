@@ -23,6 +23,8 @@ public class InteractableWheel : ShipInteractable
             PlayerLeave();
             return;
         }
+
+
     }
 
     public override void PlayerInteraction()
@@ -37,5 +39,6 @@ public class InteractableWheel : ShipInteractable
         isOpen = false;
         player.ResumeInteraction();
         wheelController.enabled = false;
+        
     }
 }
