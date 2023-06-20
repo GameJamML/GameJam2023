@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RadarPing : MonoBehaviour
 {
-
     private float remainingLifetime;
     private float Lifetime;
     private SpriteRenderer _radarPingRenderer;
@@ -37,7 +33,6 @@ public class RadarPing : MonoBehaviour
 
     public void ChangeColorOfPing(Color colorToChange)
     {
-        pingColor = colorToChange;
-           
+        pingColor = colorToChange;       
     }
 }
