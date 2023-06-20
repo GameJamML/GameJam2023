@@ -69,7 +69,7 @@ public class ShipController : MonoBehaviour
         {
             crashed = true;
             currentCrashtime = 0;
-            flagController.flagHeight = 0;
+            flagController.FlagCrash();
             speedMagnitude = 0;
             shipAudioSource.clip = crashClip;
             shipAudioSource.volume = Random.Range(0.9f, 1.0f);
@@ -158,7 +158,9 @@ public class ShipController : MonoBehaviour
             return;
         crashed = true;
         currentCrashtime = 0;
-        flagController.flagHeight = 0;
+        flagController.FlagCrash();
+        _rb.velocity = Vector3.zero;
+
         speedMagnitude = 0;
         shipAudioSource.clip = specialCrashClip;
 
