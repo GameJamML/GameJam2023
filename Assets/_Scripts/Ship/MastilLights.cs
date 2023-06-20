@@ -9,7 +9,7 @@ public class MastilLights : MonoBehaviour
 
     int off_Timer = 100;
     float off_Timer_resta = 0;
-    bool parpadeo_Active = false;
+    public bool parpadeo_Active = false;
 
     // Start is called before the first frame update
     void Start()
@@ -17,54 +17,28 @@ public class MastilLights : MonoBehaviour
 
     }
 
+    public void ActivateLights()
+    {
+        parpadeo_Active = true;
+        StartCoroutine("FlickeringCoroutine");
+    }
+
     // Update is called once per frame
     void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Z)/*&& currentCoolDowntime < coolDownTime*/)
-        {
-            parpadeo_Active = true;
-        }
+    {   
         
-        if (Input.GetKeyDown(KeyCode.X)/*&& currentCoolDowntime < coolDownTime*/)
-        {
-            parpadeo_Active = false;
-        }
-
-        for (int i = 0; i < 2; i++)
-        {
-            if (parpadeo_Active == true)
-            {
-                if (off_Timer_resta < 4)
-                {
-                    off_Timer_resta += Time.deltaTime;
-                }
-                else
-                {
-                    off_Timer_resta = 0;
-                    off_Timer--;
-                }
-
-                if (off_Timer % 2 == 0)
-                {
-
-
-                    beaconLight[i].intensity = beaconLight[i].intensity - 0.5f;
-                    //beaconLight[i].SetActive(false);
-                }
-                else
-                {
-                    
-                    beaconLight[i].intensity = beaconLight[i].intensity + 0.5f;
-                    //beaconLight[i].SetActive(true);
-                }
-            }
-            else
-            {
-                off_Timer_resta = 0;
-                parpadeo_Active = false;
-                //beaconLight[i].SetActive(true);
-            }
-        }
       
+    }
+
+    IEnumerator FlickeringCoroutine()
+    {
+        for (int i = 0; i < 10; ++i)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                beaconLight[j].intensity = beaconLight[j].intensity == 0 ? 10000 : 0;
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
     }
 }

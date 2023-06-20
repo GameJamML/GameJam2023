@@ -194,8 +194,10 @@ public class Radar : MonoBehaviour
                         //Empieza tras coger el primer objetivo, al cogerlo se emite un sonido de tensión(un rugido, algo estridente, )
                         //La primera vez que le das al radar la criatura aparece como un punto rojo en la lejanía, las siguientes pueden ser punto rojo, verde o ninguno.
                         //Hay un sonido continuo de tensión
-                        if (!enemyPoint.gameObject.activeSelf)
-                            enemyPoint.gameObject.SetActive(true);
+                        //if (!enemyPoint.gameObject.activeSelf)
+                        //    enemyPoint.gameObject.SetActive(true);
+                        colliders.Add(_raycastHitArray[i].collider);
+                        ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.red);
 
                         //enemyPoint.eulerAngles = new Vector3(0, 0, 10);
                         break;
@@ -228,6 +230,10 @@ public class Radar : MonoBehaviour
             //    RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
             //    radarPingRef.ChangeColorOfPing(Color.green);
             //}
+
+            PingCallback callback = _raycastHitArray[i].collider.gameObject.GetComponent<PingCallback>();
+            if (callback != null)
+                callback.Callback();
 
             if (++currentRadarPing >= radarPings.Length)
                 currentRadarPing = 0;
