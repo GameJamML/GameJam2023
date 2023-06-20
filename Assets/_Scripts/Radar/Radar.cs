@@ -15,7 +15,6 @@ public class Radar : MonoBehaviour
     [SerializeField] int radarDistanceObjectives;
     [SerializeField] int pingInterval = 5;
     [SerializeField] GameObject rayCastOrigin;
-    [SerializeField] GameObject rayCastForObjectives;
     [SerializeField] GameObject Ship;
     [SerializeField] GameObject radarPingPrefab;
     private GameObject[] radarPings;
@@ -29,6 +28,8 @@ public class Radar : MonoBehaviour
     private bool isDetectingObjectives = false;
     [SerializeField] private float objectivesPingMaxDuration = 1.0f;
     [SerializeField] private float objectivesPingDuration = 0.0f;
+    [SerializeField] private RadarPing longPing;
+    private RectTransform parentLongPing;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +38,9 @@ public class Radar : MonoBehaviour
         _refreshRadarHUD = transform.Find("RadarRefreshHUD") as RectTransform;
         _trailRadar = transform.Find("Trail") as RectTransform;
         _rayCastOrigin = rayCastOrigin.GetComponent<Transform>();
-        //angularSpeed = 180;
+
+        parentLongPing = longPing.GetComponentInParent<RectTransform>();
+
         colliders = new List<Collider>();
         radarPings = new GameObject[100];
         currentRadarPing = 0;
@@ -52,19 +55,16 @@ public class Radar : MonoBehaviour
         finalEuler = _refreshRadar.eulerAngles;
     }
 
+    public void ObjectiveSignal()
+    {
+        isDetectingObjectives = true;
+        objectivesPingDuration = 0.0f;
+    }
+
     // Update is called once per frame
     void Update()
     {
-
-        //Debug
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            isDetectingObjectives = true;
-            objectivesPingDuration = 0.0f;
-        }
-
         UpdateRadar();
-
     }
 
     private void UpdateRadar()
@@ -165,6 +165,8 @@ public class Radar : MonoBehaviour
                         dir.z = 0.0f;
                         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                         Debug.Log("Angle of objective -> " + angle);
+
+                        PingLongDistance(angle);
                     }
 
                 }
@@ -206,5 +208,12 @@ public class Radar : MonoBehaviour
         float angleInRad = angle * Mathf.Deg2Rad;
 
         return new Vector3(Mathf.Cos(angleInRad), 0.0f, Mathf.Sin(angleInRad));
+    }
+
+    private void PingLongDistance(float rot)
+    {
+        Vector3 shipRot = Ship.transform.eulerAngles;
+        parentLongPing.eulerAngles = new Vector3(0.0f, 0.0f, rot + shipRot.y - 45);
+        longPing.gameObject.SetActive(true);
     }
 }

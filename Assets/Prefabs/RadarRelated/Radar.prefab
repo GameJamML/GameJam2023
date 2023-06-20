@@ -336,9 +336,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   angularSpeed: -66
   radarDistance: 20
+  radarDistanceObjectives: 0
+  pingInterval: 5
+  rayCastOrigin: {fileID: 0}
+  rayCastForObjectives: {fileID: 0}
   Ship: {fileID: 0}
   radarPingPrefab: {fileID: 3295786760514669351, guid: 1973ad2f79f921d40bb00f1201dfe9f6,
     type: 3}
+  objectivesPingMaxDuration: 1
+  objectivesPingDuration: 0
+  longPing: {fileID: 0}
 --- !u!1 &6199497850391626471
 GameObject:
   m_ObjectHideFlags: 0

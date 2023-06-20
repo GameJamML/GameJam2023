@@ -25,7 +25,8 @@ public class RadarPing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _radarPingRenderer.color = pingColor;
+        if (_radarPingRenderer) 
+            _radarPingRenderer.color = pingColor;
 
         if (remainingLifetime <= 0) gameObject.SetActive(false);
                
@@ -36,8 +37,7 @@ public class RadarPing : MonoBehaviour
 
     public void ChangeColorOfPing(Color colorToChange)
     {
-        
         pingColor = colorToChange;
-        
+           
     }
 }
