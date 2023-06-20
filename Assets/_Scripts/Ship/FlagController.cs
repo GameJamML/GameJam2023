@@ -17,24 +17,12 @@ public class FlagController : MonoBehaviour
     {
         _ship = FindObjectOfType<ShipController>();
         _ship.speedMagnitude = flagHeight;
-    }
 
-    void Start()
-    {
         _flagBottomStartPos = _flagBottom.position;
         _texturePropertyID = Shader.PropertyToID(_flagTestureName);
         _moveDistance = _flagTop.position.y - _flagBottomStartPos.y;
         Debug.Log("ID" + _texturePropertyID);
-
-        /*
-                string[] texturePropertyNames = _flagRenderer.material.GetTexturePropertyNames();
-
-                // 输出纹理属性名称到控制台
-                foreach (string propertyName in texturePropertyNames)
-                {
-                    Debug.Log("Texture Property Name: " + propertyName);
-                }
-        */
+        UpdateFlag();
     }
 
     // Update is called once per frames
@@ -54,6 +42,11 @@ public class FlagController : MonoBehaviour
             else
                 flagHeight = 0;
         }
+        UpdateFlag();
+    }
+
+    private void UpdateFlag()
+    {
         _ship.speedMagnitude = flagHeight;
 
         _flagBottom.position = new Vector3(_flagBottom.position.x, _flagBottomStartPos.y + _moveDistance * (1 - flagHeight), _flagBottom.position.z);

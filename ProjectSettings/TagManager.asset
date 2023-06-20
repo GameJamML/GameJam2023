@@ -9,6 +9,7 @@ TagManager:
   - Chunk
   - Ship
   - PhysicalWall
+  - Enemy
   layers:
   - Default
   - TransparentFX

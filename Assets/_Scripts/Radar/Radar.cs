@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +20,8 @@ public class Radar : MonoBehaviour
     private List<Collider> colliders;
     private int currentRadarPing;
     private int limitPings = 0;
+    // Enmey
+    [SerializeField] RectTransform enemyPoint;
 
     private Vector3 cleanEuler = Vector3.zero;
     private Vector3 finalEuler = Vector3.zero;
@@ -84,7 +85,6 @@ public class Radar : MonoBehaviour
         _trailRadar.Rotate(Vector3.forward, angularSpeed * Time.deltaTime);
 
         //Limit the entry to the Detect function
-
         LimitDetecting();
 
         if (LastRot < 0 && currentRot >= 0 && colliders.Count > 0)
@@ -111,7 +111,6 @@ public class Radar : MonoBehaviour
 
     private void DetectObjectives()
     {
-
         RaycastHit[] _raycastHitArray;
         _raycastHitArray = Physics.RaycastAll(_rayCastOrigin.position, RetrieveVectorWithAngle(_refreshRadar.eulerAngles.z), radarDistanceObjectives);
 
@@ -122,7 +121,6 @@ public class Radar : MonoBehaviour
             isDetectingObjectives = false;
         }
         objectivesPingDuration += Time.deltaTime;
-
     }
 
     private void DetectSorroundings()
@@ -139,10 +137,19 @@ public class Radar : MonoBehaviour
 
     private void RaycastBehaviour(RaycastHit[] _raycastHitArray, bool isObjectives = false)
     {
+
+        void ActiveRadarPing(Vector3 pos, int index, Color color)
+        {
+            radarPings[index].SetActive(true);
+
+            radarPings[index].transform.position = pos;
+
+            radarPings[index].GetComponent<RadarPing>().ChangeColorOfPing(color);
+        }
+
         for (int i = 0; i < _raycastHitArray.Length; i++)
         {
             if (_raycastHitArray[i].collider == null || colliders.Contains(_raycastHitArray[i].collider)) return;
-
 
             if (isObjectives)
             {
@@ -150,25 +157,19 @@ public class Radar : MonoBehaviour
                 {
                     colliders.Add(_raycastHitArray[i].collider);
 
-                    radarPings[currentRadarPing].SetActive(true);
+                    ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.green);
 
-                    radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
-
-                    RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
-                    radarPingRef.ChangeColorOfPing(Color.green);
                     isDetectingObjectives = false;
-
 
                     if (_raycastHitArray[i].distance > radarDistance)
                     {
                         Vector3 dir = _raycastHitArray[i].transform.position - transform.position;
                         dir.z = 0.0f;
                         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                        Debug.Log("Angle of objective -> " + angle);
 
+                        //Debug.Log("Angle of objective -> " + angle);
                         PingLongDistance(angle);
                     }
-
                 }
             }
 
@@ -176,12 +177,45 @@ public class Radar : MonoBehaviour
             {
                 colliders.Add(_raycastHitArray[i].collider);
 
-                radarPings[currentRadarPing].SetActive(true);
+                ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.white);
+            }
 
-                radarPings[currentRadarPing].transform.position = _raycastHitArray[i].point;
+            if (_raycastHitArray[i].collider.CompareTag("Enemy"))
+            {
+                Enemy enemy = _raycastHitArray[i].collider.GetComponent<Enemy>();
 
-                RadarPing radarPingRef = radarPings[currentRadarPing].GetComponent<RadarPing>();
-                radarPingRef.ChangeColorOfPing(Color.white);
+                Debug.Log(enemy);
+
+                switch (enemy.currentState)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        //Empieza tras coger el primer objetivo, al cogerlo se emite un sonido de tensión(un rugido, algo estridente, )
+                        //La primera vez que le das al radar la criatura aparece como un punto rojo en la lejanía, las siguientes pueden ser punto rojo, verde o ninguno.
+                        //Hay un sonido continuo de tensión
+                        if (!enemyPoint.gameObject.activeSelf)
+                            enemyPoint.gameObject.SetActive(true);
+
+                        enemyPoint.eulerAngles = new Vector3(0, 0, 10);
+                        break;
+                    case 2:
+                        //Empieza tras coger el segundo objetivo.
+                        //El perseguidor aparece en el radar como un punto rojo o no aparece.
+                        //Ya no esta en el borde del radar, cuando aparece, aparece dentro del área.
+                        colliders.Add(_raycastHitArray[i].collider);
+                        ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.red);
+                        break;
+                    case 3:
+                        //Empieza tras coger el tercer objetivo.
+                        //El perseguidor siempre aparece en el radar como un punto rojo más cerca que antes.
+                        colliders.Add(_raycastHitArray[i].collider);
+                        ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.red);
+                        break;
+                    case 4:
+                        //Al llegar al último objetivo y utilizar el foco este no funciona. El objetivo se empieza a mover y es cuando la batería falla y ocurre el evento final.
+                        break;
+                }
             }
             //else if (_raycastHitArray[i].collider.CompareTag("Soul"))
             //{
@@ -195,9 +229,7 @@ public class Radar : MonoBehaviour
             //    radarPingRef.ChangeColorOfPing(Color.green);
             //}
 
-            currentRadarPing++;
-
-            if (currentRadarPing >= radarPings.Length)
+            if (++currentRadarPing >= radarPings.Length)
                 currentRadarPing = 0;
         }
     }
