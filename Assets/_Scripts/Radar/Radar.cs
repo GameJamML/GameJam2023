@@ -184,8 +184,6 @@ public class Radar : MonoBehaviour
             {
                 Enemy enemy = _raycastHitArray[i].collider.GetComponent<Enemy>();
 
-                Debug.Log(enemy);
-
                 switch (enemy.currentState)
                 {
                     case 0:
