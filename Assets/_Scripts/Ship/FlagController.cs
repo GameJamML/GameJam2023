@@ -6,7 +6,13 @@ public class FlagController : MonoBehaviour
     private ShipController _ship;
     [SerializeField] private Transform _flagTop;
     [SerializeField] private Transform _flagBottom;
+    [SerializeField] private Transform _smallFlagBottom;
     [SerializeField] private Renderer _flagRenderer;
+    [SerializeField] private Renderer _flagRenderer2;
+
+    [SerializeField] private Renderer _smallFlagRenderer;
+    [SerializeField] private Renderer _smallFlagRenderer2;
+
     [SerializeField] private string _flagTestureName = "_BaseMap";
     private int _texturePropertyID;
     private float _moveDistance;
@@ -50,7 +56,12 @@ public class FlagController : MonoBehaviour
         _ship.speedMagnitude = flagHeight;
 
         _flagBottom.position = new Vector3(_flagBottom.position.x, _flagBottomStartPos.y + _moveDistance * (1 - flagHeight), _flagBottom.position.z);
+        _smallFlagBottom.position = new Vector3(_flagBottom.position.x, _flagBottomStartPos.y + _moveDistance * (1 - flagHeight), _flagBottom.position.z);
 
         _flagRenderer.material.SetTextureOffset(_texturePropertyID, new Vector2(0, 1 - (flagHeight)));
+        _flagRenderer2.material.SetTextureOffset(_texturePropertyID, new Vector2(0, 1 - (flagHeight)));
+
+        _smallFlagRenderer.material.SetTextureOffset(_texturePropertyID, new Vector2(0, 1 - (flagHeight)));
+        _smallFlagRenderer2.material.SetTextureOffset(_texturePropertyID, new Vector2(0, 1 - (flagHeight)));
     }
 }
