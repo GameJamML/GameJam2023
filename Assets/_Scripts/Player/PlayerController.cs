@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
         velocity.y = 0;
         velocity.Normalize();
 
-        Ray ray = new Ray(transform.position, velocity);
+        Ray ray = new Ray(transform.position, gameObject.transform.forward);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layer))
         {
@@ -55,6 +55,9 @@ public class PlayerController : MonoBehaviour
                 transform.position += velocity * speed * Time.deltaTime;
                 
         }
+
+        Debug.DrawLine(gameObject.transform.position, gameObject.transform.forward * 150, Color.red);
+
 
         if (direction.magnitude > 0)
         {
