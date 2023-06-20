@@ -11,6 +11,11 @@ public class Enemy : MonoBehaviour
         {
             return _currentState;
         }
+        set
+        {
+            if (value >= 0 && value <= 4)
+                _currentState = value;
+        }
     }
 
     void Update()
