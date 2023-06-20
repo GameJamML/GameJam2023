@@ -55,19 +55,16 @@ public class Radar : MonoBehaviour
         finalEuler = _refreshRadar.eulerAngles;
     }
 
+    public void ObjectiveSignal()
+    {
+        isDetectingObjectives = true;
+        objectivesPingDuration = 0.0f;
+    }
+
     // Update is called once per frame
     void Update()
     {
-
-        //Debug
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            isDetectingObjectives = true;
-            objectivesPingDuration = 0.0f;
-        }
-
         UpdateRadar();
-
     }
 
     private void UpdateRadar()
