@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 1.0f;
     public LayerMask layer;
 
-    private bool canInteract = true;
+    public bool canInteract = true;
 
     void Start()
     {
@@ -27,7 +27,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (!canInteract)
+        {
+            _animator.SetFloat("Speed", 0);
             return;
+        }
+
 
         direction = new Vector3(0, 0, 0);
 

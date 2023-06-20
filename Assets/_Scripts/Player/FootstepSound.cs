@@ -5,8 +5,13 @@ using UnityEngine;
 public class FootstepSound : MonoBehaviour
 {
     public AudioClip[] footstepsOnWood;
-
+    private PlayerController playerControler;
     public string material;
+
+    private void Start()
+    {
+        playerControler = GetComponent<PlayerController>();
+    }
 
     void PlayFootstepSound()
     {
@@ -15,9 +20,10 @@ public class FootstepSound : MonoBehaviour
         audioSource.pitch = Random.Range(0.9f, 1.1f);
 
 
-        if (footstepsOnWood.Length > 0)
+        if (footstepsOnWood.Length > 0 && playerControler.canInteract == true)
+        {
             audioSource.PlayOneShot(footstepsOnWood[Random.Range(0, footstepsOnWood.Length)]);
-
+        }
     }
 
     void OnCollisionEnter(Collision collision)
