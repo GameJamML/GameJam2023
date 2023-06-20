@@ -197,7 +197,7 @@ public class Radar : MonoBehaviour
                         if (!enemyPoint.gameObject.activeSelf)
                             enemyPoint.gameObject.SetActive(true);
 
-                        enemyPoint.eulerAngles = new Vector3(0, 0, 10);
+                        //enemyPoint.eulerAngles = new Vector3(0, 0, 10);
                         break;
                     case 2:
                         //Empieza tras coger el segundo objetivo.
