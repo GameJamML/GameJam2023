@@ -31,14 +31,15 @@ public class InteractableWheel : ShipInteractable
     {
         player.StopInteraction();
         isOpen = true;
-        wheelController.enabled = true;
+        wheelController.active = true;
+  
     }
 
     public override void PlayerLeave()
     {
         isOpen = false;
         player.ResumeInteraction();
-        wheelController.enabled = false;
+        wheelController.active = false;
         
     }
 }
