@@ -30,6 +30,7 @@ public class InteractableFlag : ShipInteractable
         player.StopInteraction();
         isOpen = true;
         flagController.enabled = true;
+        Alert.ChangeSprites(1);
     }
 
     public override void PlayerLeave()
@@ -37,5 +38,6 @@ public class InteractableFlag : ShipInteractable
         isOpen = false;
         player.ResumeInteraction();
         flagController.enabled = false;
+        Alert.ChangeSprites(0);
     }
 }
