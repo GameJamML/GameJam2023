@@ -7,12 +7,13 @@ public class SoulBehavior : MonoBehaviour
     public bool isCaptured = false;
     GameObject beaconObjective;
     Enemy enemy;
-
+    SoulManager manager;
     float movingSpeed = 0.02f;
 
     private void Awake()
     {
         enemy = FindObjectOfType<Enemy>();
+        manager = FindObjectOfType<SoulManager>();
     }
     // Update is called once per frame
     void Update()
@@ -27,7 +28,7 @@ public class SoulBehavior : MonoBehaviour
         if (Vector3.Distance(transform.position, beaconObjective.transform.position) <= 1.0f)
         {
             isCaptured = false;
-            gameObject.SetActive(false);
+            transform.parent.gameObject.SetActive(false);
             enemy.ProgressState();
         }
     }
@@ -36,7 +37,7 @@ public class SoulBehavior : MonoBehaviour
     {
         if (isCaptured)
             return;
-
+        manager.NextSoul();
        
 
         beaconObjective = beacon;

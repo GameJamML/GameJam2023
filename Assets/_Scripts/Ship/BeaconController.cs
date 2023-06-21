@@ -43,7 +43,6 @@ public class BeaconController : MonoBehaviour
             currentCoolDowntime = 0.0f;
             currentTime = 0.0f;
             beaconActivated = false;
-            boxCollider.enabled = false;
             beaconLight.intensity = 0;
         }
 
@@ -65,6 +64,7 @@ public class BeaconController : MonoBehaviour
         {
             SoulBehavior behavior = other.gameObject.GetComponent<SoulBehavior>();
             behavior.Capture(beaconOrigin);
+            ActivateBeacon();
         }
     }
 }
