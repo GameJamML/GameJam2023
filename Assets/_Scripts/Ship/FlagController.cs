@@ -29,7 +29,6 @@ public class FlagController : MonoBehaviour
         _flagBottomStartPos = _flagBottom.position;
         _texturePropertyID = Shader.PropertyToID(_flagTestureName);
         _moveDistance = _flagTop.position.y - _flagBottomStartPos.y;
-        Debug.Log("ID" + _texturePropertyID);
         UpdateFlag();
     }
 
