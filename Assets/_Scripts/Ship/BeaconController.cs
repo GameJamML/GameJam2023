@@ -14,10 +14,13 @@ public class BeaconController : MonoBehaviour
 
     float coolDownTime = 2.0f;
     float currentCoolDowntime = 2.0f;
-    public BoxCollider boxCollider;    
+    public BoxCollider boxCollider;
+
+    InteractableBeacon InteractableBeacon;
 
     public void Awake()
     {
+        InteractableBeacon = FindObjectOfType<InteractableBeacon>();
         currentCoolDowntime = 5.0f;
     }
 
@@ -64,7 +67,7 @@ public class BeaconController : MonoBehaviour
         {
             SoulBehavior behavior = other.gameObject.GetComponent<SoulBehavior>();
             behavior.Capture(beaconOrigin);
-            ActivateBeacon();
+            InteractableBeacon.PlayerInteraction();
         }
     }
 }
