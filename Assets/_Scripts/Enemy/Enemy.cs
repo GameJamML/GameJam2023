@@ -170,11 +170,15 @@ public class Enemy : MonoBehaviour
                         }
                         else counter += Time.deltaTime;
                         break;
+                    case 4:
+                        collider.enabled = false;
+                        break;
                 }
                 break;
             case 4:
                 // Desactivar todas las paredes
                 // Activar paredes final
+                collider.enabled = true;
                 switch (phaseSubstate)
                 {
                     case 0:
