@@ -36,14 +36,14 @@ public class FlagController : MonoBehaviour
     // Update is called once per frames
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.S))
         {
             if (flagHeight < 1.0f)
                 flagHeight += controllingSpeed * Time.deltaTime;
             else
                 flagHeight = 1.0f;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.W))
         {
             if (flagHeight > 0)
                 flagHeight -= controllingSpeed * Time.deltaTime;

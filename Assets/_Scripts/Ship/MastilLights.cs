@@ -7,8 +7,7 @@ public class MastilLights : MonoBehaviour
 
     public List<Light> beaconLight;
 
-    int off_Timer = 100;
-    float off_Timer_resta = 0;
+    int flickeringIterations = 0;
     public bool parpadeo_Active = false;
 
     // Start is called before the first frame update
@@ -17,10 +16,11 @@ public class MastilLights : MonoBehaviour
 
     }
 
-    public void ActivateLights()
+    public void ActivateLights(int iterations)
     {
         if (parpadeo_Active)
             return;
+        flickeringIterations = iterations;
         parpadeo_Active = true;
         StartCoroutine("FlickeringCoroutine");
     }
@@ -34,7 +34,7 @@ public class MastilLights : MonoBehaviour
 
     IEnumerator FlickeringCoroutine()
     {
-        for (int i = 0; i < 14; ++i)
+        for (int i = 0; i < flickeringIterations; ++i)
         {
             for (int j = 0; j < beaconLight.Count; j++)
             {
