@@ -160,7 +160,7 @@ public class Radar : MonoBehaviour
                     {
                         Vector3 dir = _raycastHitArray[i].transform.position - radarT.position;
                         dir.z = 0.0f;
-                        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                        float angle = Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg;
 
                         //Debug.Log("Angle of objective -> " + angle);
                         PingLongDistance(angle);
