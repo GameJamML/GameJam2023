@@ -10514,6 +10514,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Roca1
       objectReference: {fileID: 0}
+    - target: {fileID: 844081460055785944, guid: 847c8542117658b418baf6b405134d67,
+        type: 3}
+      propertyPath: m_TagString
+      value: PhysicalWall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 847c8542117658b418baf6b405134d67, type: 3}
 --- !u!4 &4941029302799397895 stripped
@@ -10618,6 +10623,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 70.305
+      objectReference: {fileID: 0}
+    - target: {fileID: 838242519495330674, guid: 38e1d005a343b3546a5d5d16b5fde819,
+        type: 3}
+      propertyPath: m_TagString
+      value: PhysicalWall
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 38e1d005a343b3546a5d5d16b5fde819,
         type: 3}
@@ -10748,6 +10758,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e7a24b91b445c5145a118e6d6bfeb56d, type: 2}
+    - target: {fileID: 838242519495330674, guid: baac38c2ebe87fb46ad7220395161520,
+        type: 3}
+      propertyPath: m_TagString
+      value: PhysicalWall
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: baac38c2ebe87fb46ad7220395161520,
         type: 3}
       propertyPath: m_Name

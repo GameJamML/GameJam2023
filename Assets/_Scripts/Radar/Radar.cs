@@ -71,7 +71,7 @@ public class Radar : MonoBehaviour
 
     private void UpdateRadar()
     {
-        Vector3 shipRot = Ship.transform.eulerAngles;
+        Vector3 shipRot = radarT.transform.eulerAngles;
 
         _refreshRadar.eulerAngles = cleanEuler;
         float LastRot = (_refreshRadar.eulerAngles.z % 360) - 180;
@@ -263,7 +263,7 @@ public class Radar : MonoBehaviour
 
     private void PingLongDistance(float rot)
     {
-        Vector3 shipRot = Ship.transform.eulerAngles;
+        Vector3 shipRot = radarT.transform.eulerAngles;
         parentLongPing.localEulerAngles = new Vector3(0.0f, 0.0f, (rot + shipRot.y + 45));
         longPing.gameObject.SetActive(true);
     }
