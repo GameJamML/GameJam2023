@@ -7,6 +7,10 @@ public class InteractableRadar : ShipInteractable
     public Radar radarController;
     float radarCooldown = 3.0f;
     float currentCooldown = 3.0f;
+
+    public AudioSource radarSource;
+    public AudioClip currentClip;
+
     private void Update()
     {
         if (!isPlayerOn)
@@ -27,6 +31,9 @@ public class InteractableRadar : ShipInteractable
 
     public override void PlayerInteraction()
     {
+        radarSource.clip = currentClip;
+        radarSource.Play();
+
         radarController.ObjectiveSignal();
         currentCooldown = 0.0f;
     }
