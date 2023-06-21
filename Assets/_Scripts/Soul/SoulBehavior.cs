@@ -28,6 +28,7 @@ public class SoulBehavior : MonoBehaviour
         {
             isCaptured = false;
             gameObject.SetActive(false);
+            enemy.ProgressState();
         }
     }
 
@@ -36,7 +37,7 @@ public class SoulBehavior : MonoBehaviour
         if (isCaptured)
             return;
 
-        enemy.ProgressState();
+       
 
         beaconObjective = beacon;
         isCaptured = true;
