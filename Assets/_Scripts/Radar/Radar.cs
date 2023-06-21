@@ -265,6 +265,9 @@ public class Radar : MonoBehaviour
     {
         Vector3 shipRot = radarT.transform.eulerAngles;
         parentLongPing.localEulerAngles = new Vector3(0.0f, 0.0f, (rot + shipRot.y + 45));
+        Debug.Log(rot);
+
         longPing.gameObject.SetActive(true);
+        isDetectingObjectives = false;
     }
 }
