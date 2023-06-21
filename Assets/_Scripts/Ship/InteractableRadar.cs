@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractableRadar : ShipInteractable
 {
     public Radar radarController;
-    float radarCooldown = 3.0f;
+    float radarCooldown = 1.0f;
     float currentCooldown = 3.0f;
 
     public AudioSource radarSource;
