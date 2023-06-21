@@ -213,6 +213,8 @@ public class Radar : MonoBehaviour
                         ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.red);
                         break;
                     case 4:
+                        colliders.Add(_raycastHitArray[i].collider);
+                        ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.red);
                         //Al llegar al último objetivo y utilizar el foco este no funciona. El objetivo se empieza a mover y es cuando la batería falla y ocurre el evento final.
                         break;
                 }

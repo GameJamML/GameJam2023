@@ -122,6 +122,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CaveWallEnding
       objectReference: {fileID: 0}
+    - target: {fileID: 2063146366269451089, guid: 3de73c3dd358cb74a9a0154091259cb9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2063146366269451089, guid: 3de73c3dd358cb74a9a0154091259cb9,
+        type: 3}
+      propertyPath: m_TagString
+      value: PhysicalWall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3de73c3dd358cb74a9a0154091259cb9, type: 3}
 --- !u!4 &1411762714419750567 stripped
@@ -206,6 +216,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CaveWallEnding
+      objectReference: {fileID: 0}
+    - target: {fileID: 319159529438533381, guid: 53a039bf814aba747aad6db1ec1f7837,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 319159529438533381, guid: 53a039bf814aba747aad6db1ec1f7837,
+        type: 3}
+      propertyPath: m_TagString
+      value: PhysicalWall
       objectReference: {fileID: 0}
     - target: {fileID: 319159529438533382, guid: 53a039bf814aba747aad6db1ec1f7837,
         type: 3}
@@ -307,6 +327,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CaveWallEnding
       objectReference: {fileID: 0}
+    - target: {fileID: 5140892637801801519, guid: b44ddc64912f2bf47ab0e9aa4c5f2e2f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140892637801801519, guid: b44ddc64912f2bf47ab0e9aa4c5f2e2f,
+        type: 3}
+      propertyPath: m_TagString
+      value: PhysicalWall
+      objectReference: {fileID: 0}
     - target: {fileID: 5140892637801801525, guid: b44ddc64912f2bf47ab0e9aa4c5f2e2f,
         type: 3}
       propertyPath: m_Mesh
@@ -371,6 +401,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CaveWallEnding
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175453734081892218, guid: f79be97634192da4ea5134ecec99a646,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175453734081892218, guid: f79be97634192da4ea5134ecec99a646,
+        type: 3}
+      propertyPath: m_TagString
+      value: PhysicalWall
       objectReference: {fileID: 0}
     - target: {fileID: 9175453734081892219, guid: f79be97634192da4ea5134ecec99a646,
         type: 3}

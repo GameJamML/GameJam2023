@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     public AudioClip stalkingClip1;
 
     public GameObject finalWalls;
+    public GameObject[] wallswalls;
     public GameObject blackImage;
 
     bool teleportedPlayer = false;
@@ -185,7 +186,13 @@ public class Enemy : MonoBehaviour
 
                         GameObject shipGO = FindObjectOfType<PlayerController>().gameObject;
 
-                        finalWalls.transform.position = new Vector3(shipGO.transform.position.x, shipGO.transform.position.y, shipGO.transform.position.z + 524 );
+                        finalWalls.transform.position = new Vector3(shipGO.transform.position.x, shipGO.transform.position.y-4.0f, shipGO.transform.position.z);
+
+                        foreach (var wall in wallswalls)
+                        {
+                            wall.gameObject.SetActive(true);
+                        }
+                        
                         teleportedPlayer = true;
 
                         mastil.ActivateLights(18);
