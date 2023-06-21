@@ -64,6 +64,7 @@ public class BeaconController : MonoBehaviour
         {
             SoulBehavior behavior = other.gameObject.GetComponent<SoulBehavior>();
             behavior.Capture(beaconOrigin);
+            ActivateBeacon();
         }
     }
 }
