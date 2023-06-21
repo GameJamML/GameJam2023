@@ -6,8 +6,14 @@ public class SoulBehavior : MonoBehaviour
 {
     public bool isCaptured = false;
     GameObject beaconObjective;
+    Enemy enemy;
 
     float movingSpeed = 0.02f;
+
+    private void Awake()
+    {
+        enemy = FindObjectOfType<Enemy>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -29,6 +35,8 @@ public class SoulBehavior : MonoBehaviour
     {
         if (isCaptured)
             return;
+
+        enemy.ProgressState();
 
         beaconObjective = beacon;
         isCaptured = true;
