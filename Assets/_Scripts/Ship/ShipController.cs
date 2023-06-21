@@ -25,6 +25,7 @@ public class ShipController : MonoBehaviour
     FlagController flagController;
 
     public AudioClip crashClip;
+    public AudioClip specialCrashClip;
     public AudioSource shipAudioSource;
 
     public float speedMagnitude
@@ -68,8 +69,9 @@ public class ShipController : MonoBehaviour
         {
             crashed = true;
             currentCrashtime = 0;
-            flagController.flagHeight = 0;
+            flagController.FlagCrash();
             speedMagnitude = 0;
+            _rb.velocity = Vector3.zero;
             shipAudioSource.clip = crashClip;
             shipAudioSource.volume = Random.Range(0.9f, 1.0f);
             shipAudioSource.pitch = Random.Range(0.9f, 1.1f);
@@ -88,7 +90,7 @@ public class ShipController : MonoBehaviour
         // Movement test
         //speedMagnitude = speedMagnitude + Input.GetAxis("Vertical") * Time.deltaTime;
 
-        if(speedMagnitude > 0)
+        if (speedMagnitude > 0)
         {
             var leftFoamParticleEmission = leftFoamParticle.emission;
             var rightFoamParticleEmission = rightFoamParticle.emission;
@@ -136,7 +138,8 @@ public class ShipController : MonoBehaviour
         if (rotateInput != 0)
             transform.Rotate(new Vector3(0, _rotateInput * _rotationSpeed * Time.deltaTime, 0));
 
-        
+        if (transform.localEulerAngles.x != 0 || transform.localEulerAngles.z != 0)
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
     }
 
     void FixedUpdate()
@@ -149,5 +152,20 @@ public class ShipController : MonoBehaviour
         // Calculate velocity
         _rb.velocity = forwardDirection * _speedMagnitude * _maxSpeed;
         _rb.angularVelocity = Vector3.zero;
+    }
+
+    public void CrashShip()
+    {
+        if (shipAudioSource.isPlaying)
+            return;
+        crashed = true;
+        currentCrashtime = 0;
+        flagController.FlagCrash();
+        _rb.velocity = Vector3.zero;
+
+        speedMagnitude = 0;
+        shipAudioSource.clip = specialCrashClip;
+
+        shipAudioSource.Play();
     }
 }

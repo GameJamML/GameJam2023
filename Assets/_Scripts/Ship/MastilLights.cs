@@ -5,10 +5,9 @@ using UnityEngine;
 public class MastilLights : MonoBehaviour
 {
 
-    public Light[] beaconLight;
+    public List<Light> beaconLight;
 
-    int off_Timer = 100;
-    float off_Timer_resta = 0;
+    int flickeringIterations = 0;
     public bool parpadeo_Active = false;
 
     // Start is called before the first frame update
@@ -17,8 +16,11 @@ public class MastilLights : MonoBehaviour
 
     }
 
-    public void ActivateLights()
+    public void ActivateLights(int iterations)
     {
+        if (parpadeo_Active)
+            return;
+        flickeringIterations = iterations;
         parpadeo_Active = true;
         StartCoroutine("FlickeringCoroutine");
     }
@@ -32,13 +34,21 @@ public class MastilLights : MonoBehaviour
 
     IEnumerator FlickeringCoroutine()
     {
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < flickeringIterations; ++i)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < beaconLight.Count; j++)
             {
-                beaconLight[j].intensity = beaconLight[j].intensity == 0 ? 10000 : 0;
-                yield return new WaitForSeconds(0.5f);
+                beaconLight[j].intensity = beaconLight[j].intensity == 15 ? 100 : 15;
+                beaconLight[j].innerSpotAngle = 60.0f;
+                beaconLight[j].spotAngle = 60.0f;
             }
+            yield return new WaitForSeconds(Random.Range(0.10f, 0.25f));
         }
+        for (int j = 0; j < beaconLight.Count; j++)
+        {
+            beaconLight[j].spotAngle = 120.0f;
+            beaconLight[j].innerSpotAngle = 120.0f;
+        }
+        parpadeo_Active = false;
     }
 }

@@ -13,6 +13,15 @@ public class Enemy : MonoBehaviour
 
     MastilLights mastil;
 
+    ShipController shipController;
+
+    SeaBehavior sea;
+
+    bool firstCrashSound = false;
+
+    public AudioSource ambientAudioSource;
+    public AudioClip stalkingClip1;
+
     public int currentState
     {
         get
@@ -33,6 +42,8 @@ public class Enemy : MonoBehaviour
     {
         collider = GetComponent<SphereCollider>();
         mastil = FindObjectOfType<MastilLights>();
+        shipController = FindObjectOfType<ShipController>();
+        sea = FindObjectOfType<SeaBehavior>();
     }
 
     void Update()
@@ -97,7 +108,7 @@ public class Enemy : MonoBehaviour
                 {
                     case 0:
                         transform.localPosition = new Vector3(0, 0, -160);
-                        mastil.ActivateLights();
+                        mastil.ActivateLights(12);
                         break;
                     case 1:
                         if (counter >= 1.0f)
@@ -113,9 +124,46 @@ public class Enemy : MonoBehaviour
 
                 break;
             case 3:
+                collider.enabled = true;
                 //Empieza tras coger el tercer objetivo.
                 //El perseguidor siempre aparece en el radar como un punto rojo más cerca que antes.
-                transform.localPosition = new Vector3(0, 0, _statePos[1]);
+                switch (phaseSubstate)
+                {
+                    case 0:
+                        transform.localPosition = new Vector3(0, 0, -140);
+                        mastil.ActivateLights(16);
+                        sea.ChangeRoughness(0.5f, 14.0f);
+                        break;
+                    case 1:
+                        if (counter >= 1.0f)
+                        {
+                            transform.localPosition = new Vector3(0, 0, -90);
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                    case 2:
+                        if (counter >= 1.0f)
+                        {
+                            transform.localPosition = new Vector3(0, 0, -40);
+                            ambientAudioSource.clip = stalkingClip1;
+                            if (!ambientAudioSource.isPlaying)
+                                ambientAudioSource.Play();
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                    case 3:
+                        if (counter >= 2.0f && !firstCrashSound)
+                        {
+                            firstCrashSound = true;
+                            collider.enabled = false;
+                            shipController.CrashShip();
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                    case 4:
+                        collider.enabled = false;
+                        break;
+                }
                 break;
             case 4:
                 //Al llegar al último objetivo y utilizar el foco este no funciona. El objetivo se empieza a mover y es cuando la batería falla y ocurre el evento final.
