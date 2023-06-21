@@ -156,12 +156,6 @@ public class Radar : MonoBehaviour
             {
                 if (_raycastHitArray[i].collider.CompareTag("Soul"))
                 {
-                    colliders.Add(_raycastHitArray[i].collider);
-
-                    ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.green);
-
-                    isDetectingObjectives = false;
-
                     if (_raycastHitArray[i].distance > radarDistance)
                     {
                         Vector3 dir = _raycastHitArray[i].transform.position - radarT.position;
@@ -170,6 +164,12 @@ public class Radar : MonoBehaviour
 
                         //Debug.Log("Angle of objective -> " + angle);
                         PingLongDistance(angle);
+
+                        PingCallback callback0 = _raycastHitArray[i].collider.gameObject.GetComponent<PingCallback>();
+                        if (callback0 != null)
+                            callback0.Callback();
+
+                        continue;
                     }
                 }
             }
@@ -179,6 +179,18 @@ public class Radar : MonoBehaviour
                 colliders.Add(_raycastHitArray[i].collider);
 
                 ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.white);
+            }
+
+            if (_raycastHitArray[i].collider.CompareTag("Soul"))
+            {
+                if (_raycastHitArray[i].distance < radarDistance)
+                {
+                    colliders.Add(_raycastHitArray[i].collider);
+
+                    ActiveRadarPing(_raycastHitArray[i].point, currentRadarPing, Color.green);
+
+                    isDetectingObjectives = false;
+                }
             }
 
             if (_raycastHitArray[i].collider.CompareTag("Enemy"))
