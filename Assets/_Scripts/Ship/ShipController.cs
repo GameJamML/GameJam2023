@@ -90,7 +90,7 @@ public class ShipController : MonoBehaviour
         // Movement test
         //speedMagnitude = speedMagnitude + Input.GetAxis("Vertical") * Time.deltaTime;
 
-        if(speedMagnitude > 0)
+        if (speedMagnitude > 0)
         {
             var leftFoamParticleEmission = leftFoamParticle.emission;
             var rightFoamParticleEmission = rightFoamParticle.emission;
@@ -138,7 +138,8 @@ public class ShipController : MonoBehaviour
         if (rotateInput != 0)
             transform.Rotate(new Vector3(0, _rotateInput * _rotationSpeed * Time.deltaTime, 0));
 
-        
+        if (transform.localEulerAngles.x != 0 || transform.localEulerAngles.z != 0)
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
     }
 
     void FixedUpdate()
