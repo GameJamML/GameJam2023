@@ -15,6 +15,7 @@ public class Radar : MonoBehaviour
     [SerializeField] int pingInterval = 5;
     [SerializeField] GameObject rayCastOrigin;
     [SerializeField] GameObject Ship;
+    [SerializeField] Transform radarT;
     [SerializeField] GameObject radarPingPrefab;
     private GameObject[] radarPings;
     private List<Collider> colliders;
@@ -30,7 +31,7 @@ public class Radar : MonoBehaviour
     [SerializeField] private float objectivesPingMaxDuration = 1.0f;
     [SerializeField] private float objectivesPingDuration = 0.0f;
     [SerializeField] private RadarPing longPing;
-    private RectTransform parentLongPing;
+    [SerializeField] private RectTransform parentLongPing;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +41,7 @@ public class Radar : MonoBehaviour
         _trailRadar = transform.Find("Trail") as RectTransform;
         _rayCastOrigin = rayCastOrigin.GetComponent<Transform>();
 
-        parentLongPing = longPing.GetComponentInParent<RectTransform>();
+        //parentLongPing = longPing.GetComponentInParent<RectTransform>();
 
         colliders = new List<Collider>();
         radarPings = new GameObject[100];
@@ -163,7 +164,7 @@ public class Radar : MonoBehaviour
 
                     if (_raycastHitArray[i].distance > radarDistance)
                     {
-                        Vector3 dir = _raycastHitArray[i].transform.position - transform.position;
+                        Vector3 dir = _raycastHitArray[i].transform.position - radarT.position;
                         dir.z = 0.0f;
                         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
@@ -251,7 +252,7 @@ public class Radar : MonoBehaviour
     private void PingLongDistance(float rot)
     {
         Vector3 shipRot = Ship.transform.eulerAngles;
-        parentLongPing.eulerAngles = new Vector3(0.0f, 0.0f, rot + shipRot.y - 45);
+        parentLongPing.localEulerAngles = new Vector3(0.0f, 0.0f, (rot + shipRot.y + 45));
         longPing.gameObject.SetActive(true);
     }
 }
