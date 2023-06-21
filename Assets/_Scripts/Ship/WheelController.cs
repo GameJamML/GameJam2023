@@ -18,7 +18,7 @@ public class WheelController : MonoBehaviour
         }
         set
         {
-            Debug.Log(value);
+            
             _active = value;
             if (_active == false)
             {
@@ -40,6 +40,7 @@ public class WheelController : MonoBehaviour
 
         if (_active && Input.GetKey(KeyCode.A))
         {
+
             currentRotation -= rotateSpeed * Time.deltaTime;
 
             if (Timon.transform.localEulerAngles.y < 315)
