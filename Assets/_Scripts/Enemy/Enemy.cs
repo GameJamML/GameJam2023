@@ -1,4 +1,7 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
@@ -225,11 +228,19 @@ public class Enemy : MonoBehaviour
                             collider.enabled = false;
                             shipController.CrashShip();
                             blackImage.SetActive(true);
+                            StartCoroutine("ChangeToFinalScene");
+
                         }
                         else counter += Time.deltaTime;
                         break;
                 }
                 break;
         }
+    }
+
+    IEnumerator ChangeToFinalScene()
+    {
+        yield return new WaitForSeconds(3.0f);
+        SceneManager.LoadScene(sceneBuildIndex: 2);
     }
 }
