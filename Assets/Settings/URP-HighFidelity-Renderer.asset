@@ -97,6 +97,6 @@ MonoBehaviour:
   settings:
     renderPassEvent: 550
     cameraResolution: {x: 484, y: 274}
-    screenResolution: {x: 1184, y: 671}
-    margin: {x: 0.01983471, y: 0.035036497}
-    scale: {x: 0.9603306, y: 0.929927}
+    screenResolution: {x: 679, y: 387}
+    margin: {x: 0.023140496, y: 0.04087591}
+    scale: {x: 0.953719, y: 0.9182482}
