@@ -24,7 +24,7 @@ public class SoulBehavior : MonoBehaviour
         direction.Normalize();
         transform.position += direction * movingSpeed; 
 
-        if (Vector3.Distance(transform.position, beaconObjective.transform.position) <= 0.1f)
+        if (Vector3.Distance(transform.position, beaconObjective.transform.position) <= 1.0f)
         {
             isCaptured = false;
             gameObject.SetActive(false);

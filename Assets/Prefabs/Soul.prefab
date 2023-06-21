@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 2831598969693245659}
   - component: {fileID: 6607055984364996591}
   - component: {fileID: 4813368614081998451}
+  - component: {fileID: 6465396066642015394}
   m_Layer: 0
   m_Name: Main
   m_TagString: Soul
@@ -296,6 +297,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6465396066642015394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520055920442919269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea045e8d49f4dc546b332e97838bad8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 0}
 --- !u!1 &3658870269907627251
 GameObject:
   m_ObjectHideFlags: 0
