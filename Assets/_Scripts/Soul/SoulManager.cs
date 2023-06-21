@@ -28,7 +28,10 @@ public class SoulManager : MonoBehaviour
     public void NextSoul()
     {
         currentSoul++;
-        souls[currentSoul].transform.parent.gameObject.SetActive(true);
-        radar.currentClip = soulClips[currentSoul];
+        if (currentSoul <= 3)
+        {
+            souls[currentSoul].transform.parent.gameObject.SetActive(true);
+            radar.currentClip = soulClips[currentSoul];
+        }
     }
 }
