@@ -53,11 +53,8 @@ public class SeaBehavior : MonoBehaviour
     public void ChangeColorProgressively(float magnitude)
     {
         destinyColor = magnitude;
-        for (int i = 0; i < 9; ++i)
-        {
-            seas[i].colorMagnitude = magnitude;
-        }
-        StartCoroutine("ChangeColorProgressively");
+
+        StartCoroutine("ChangeColorProgressivelyCoroutine");
     }
 
     IEnumerator BackToNormalCoroutine()
@@ -70,11 +67,11 @@ public class SeaBehavior : MonoBehaviour
         }
     }
 
-    IEnumerator ChangeColorProgressively()
+    IEnumerator ChangeColorProgressivelyCoroutine()
     {
         while (seas[0].colorMagnitude < destinyColor)
         {
-            float currentColor = seas[0].colorMagnitude + Time.deltaTime;
+            float currentColor = seas[0].colorMagnitude + (Time.deltaTime * 0.5f);
             for (int i = 0; i < 9; ++i)
             {
                 seas[i].colorMagnitude = currentColor;
