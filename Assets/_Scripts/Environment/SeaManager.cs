@@ -24,7 +24,7 @@ public class SeaManager : MonoBehaviour
         }
         set
         {
-            if (value <= 0 && value >= 1)
+            if (value >= 0 || value <= 1)
             {
                 _colorMagnitude = value;
                 UpdateMaterial();

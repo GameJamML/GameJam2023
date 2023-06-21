@@ -32,6 +32,14 @@ public class MastilLights : MonoBehaviour
       
     }
 
+    public void TurnLightsOff()
+    {
+        for (int j = 0; j < beaconLight.Count; j++)
+        {
+            beaconLight[j].intensity = 0;
+        }
+    }
+
     IEnumerator FlickeringCoroutine()
     {
         for (int i = 0; i < flickeringIterations; ++i)

@@ -19,7 +19,7 @@ public class CanvasScript : MonoBehaviour
 
         if (active == false)
         {
-            Instructions.alpha = Instructions.alpha - 0.001f;
+            Instructions.alpha = Instructions.alpha - 0.01f;
         }
 
     }

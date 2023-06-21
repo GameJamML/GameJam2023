@@ -22,6 +22,11 @@ public class Enemy : MonoBehaviour
     public AudioSource ambientAudioSource;
     public AudioClip stalkingClip1;
 
+    public GameObject finalWalls;
+    public GameObject blackImage;
+
+    bool teleportedPlayer = false;
+
     public int currentState
     {
         get
@@ -60,6 +65,7 @@ public class Enemy : MonoBehaviour
         _currentState++;
         phaseSubstate = 0;
         counter = 0.0f;
+
     }
 
     public void StateBehavior()
@@ -160,13 +166,62 @@ public class Enemy : MonoBehaviour
                         }
                         else counter += Time.deltaTime;
                         break;
-                    case 4:
-                        collider.enabled = false;
-                        break;
                 }
                 break;
             case 4:
-                //Al llegar al último objetivo y utilizar el foco este no funciona. El objetivo se empieza a mover y es cuando la batería falla y ocurre el evento final.
+                // Desactivar todas las paredes
+                // Activar paredes final
+                switch (phaseSubstate)
+                {
+                    case 0:
+                        if (teleportedPlayer)
+                            return;
+                        GameObject[] walls = GameObject.FindGameObjectsWithTag("PhysicalWall");
+
+                        foreach (var wall in walls)
+                        {
+                            wall.SetActive(false);
+                        }
+
+                        GameObject shipGO = FindObjectOfType<PlayerController>().gameObject;
+
+                        finalWalls.transform.position = new Vector3(shipGO.transform.position.x, shipGO.transform.position.y, shipGO.transform.position.z + 524 );
+                        teleportedPlayer = true;
+
+                        mastil.ActivateLights(18);
+                        sea.ChangeRoughness(1.0f, 32.0f);
+                        sea.ChangeColorProgressively(1.0f);
+                        transform.localPosition = new Vector3(0, 0, -140);
+
+                        break;
+                    case 1:
+                        if (counter >= 1.0f)
+                        {
+                            transform.localPosition = new Vector3(0, 0, -90);
+                            ambientAudioSource.clip = stalkingClip1;
+                            if (!ambientAudioSource.isPlaying)
+                                ambientAudioSource.Play();
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                    case 2:
+                        if (counter >= 1.0f)
+                        {
+                            transform.localPosition = new Vector3(0, 0, -40);
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                    case 3:
+                        if (counter >= 2.0f && !firstCrashSound)
+                        {
+                            firstCrashSound = true;
+                            collider.enabled = false;
+                            shipController.CrashShip();
+                            blackImage.SetActive(true);
+                        }
+                        else counter += Time.deltaTime;
+                        break;
+                }
                 break;
         }
     }

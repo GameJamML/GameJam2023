@@ -10,6 +10,8 @@ public class SeaBehavior : MonoBehaviour
 
     float currentTSMagnitude = 0.0f;
 
+    float destinyColor = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,12 +50,32 @@ public class SeaBehavior : MonoBehaviour
         }
     }
 
+    public void ChangeColorProgressively(float magnitude)
+    {
+        destinyColor = magnitude;
+
+        StartCoroutine("ChangeColorProgressivelyCoroutine");
+    }
+
     IEnumerator BackToNormalCoroutine()
     {
         while (currentTSMagnitude > 0)
         {
             currentTSMagnitude -= Time.deltaTime;
             ChangeRoughness(currentTSMagnitude);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator ChangeColorProgressivelyCoroutine()
+    {
+        while (seas[0].colorMagnitude < destinyColor)
+        {
+            float currentColor = seas[0].colorMagnitude + (Time.deltaTime * 0.5f);
+            for (int i = 0; i < 9; ++i)
+            {
+                seas[i].colorMagnitude = currentColor;
+            }
             yield return new WaitForEndOfFrame();
         }
     }

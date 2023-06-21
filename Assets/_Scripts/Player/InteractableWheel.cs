@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractableWheel : ShipInteractable
 {
     public WheelController wheelController;
+
     private void Update()
     {
         if (!isPlayerOn)
@@ -32,6 +33,7 @@ public class InteractableWheel : ShipInteractable
         player.StopInteraction();
         isOpen = true;
         wheelController.active = true;
+        Alert.ChangeSprites(1);
   
     }
 
@@ -40,6 +42,8 @@ public class InteractableWheel : ShipInteractable
         isOpen = false;
         player.ResumeInteraction();
         wheelController.active = false;
-        
+        Alert.ChangeSprites(0);
+
+
     }
 }
