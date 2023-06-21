@@ -267,6 +267,15 @@ public class Radar : MonoBehaviour
         parentLongPing.localEulerAngles = new Vector3(0.0f, 0.0f, (rot + shipRot.y + 45));
         Debug.Log(rot);
 
+        if (Ship.transform.position.x < 0 || Ship.transform.position.z < 0)
+        {
+            shipRot = parentLongPing.localEulerAngles;
+            shipRot.z *= -1;
+            Debug.Log("fewferf->" +shipRot.z);
+            parentLongPing.localEulerAngles = shipRot;
+        }
+        
+
         longPing.gameObject.SetActive(true);
         isDetectingObjectives = false;
     }
